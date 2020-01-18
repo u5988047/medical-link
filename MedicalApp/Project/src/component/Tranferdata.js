@@ -13,14 +13,15 @@ export default class Tranferdata extends Component{
                      <Text style = {styles.head}>Please enter your information</Text>  
 
                      <View style = {styles.inputcontainer}>
-                                <Text>หมายเลขบัตรประชาชน</Text>   
+                                <Text style ={{marginTop:10}}>หมายเลขบัตรประชาชน</Text>   
                                          <TextInput 
                                              placeholder = "11000505245256"
                                              placeholderTextColor = 'gray'
+                                             keyboardType ='number-pad'
                                              style = {styles.input} />
                        
                        </View>
-                       <View style = {styles.inputcontainer}>
+                       {/* <View style = {styles.inputcontainer}>
                                 <Text style = {styles.inputheader}>ชื่อ-นามสกุล</Text>   
                                          <TextInput 
                                              placeholder = "สมิธ ปาน"
@@ -37,7 +38,7 @@ export default class Tranferdata extends Component{
                                              
                                              style = {styles.input}/>
                        
-                       </View>
+                       </View> */}
 
                     {/*<View style = {styles.option}>
                         <Text style = {styles.choose}>โรงพยาบาลที่จะเข้ารับการรักษา</Text>

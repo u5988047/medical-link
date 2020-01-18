@@ -1,21 +1,18 @@
 import React, {Component} from 'react';
-import {StyleSheet, View,Text,Image, TextInput, TouchableOpacity} from 'react-native';
+import {StyleSheet, View,Text,Image, TextInput, TouchableOpacity,Picker} from 'react-native';
 import {Actions } from 'react-native-router-flux';
 import { CheckBox } from 'react-native';
+
 
 export default class Tranferdata extends Component{
 
     constructor(){
         super();
         this.state = {
-            check : false
+            PickerValue:''
         }
     }
-    checkBoxTest(){
-        this.setState({
-            check:! this.state.check
-        })
-    }
+    
     towaitidp = () => {
         Actions.WaitIDP()
     }
@@ -25,28 +22,17 @@ export default class Tranferdata extends Component{
                 <View style = {styles.container}>
                      <Text style = {styles.head}>Select IdP</Text>
 
-                        <Text>โรงพยาบาลที่เคยรักษาก่อนหน้า</Text>
+                     <Picker
+                     style = {{width:'80%'}}
+                     selectedValue = {this.state.PickerValue}
+                     onValueChange ={(itemValue,itemIndex) => this.setState({PickerValue:itemValue})}
+                     >
+                        <Picker.Item label ="กรุณาเลือกโรงพยาบาลที่มีข้อมูล" value="" />
+                        <Picker.Item label ="Hospital1" value="Hospital1" />
+                        <Picker.Item label ="Hospital2" value="Hospital2" />
 
-                        <View style = {styles.check} >
-                        <CheckBox key = 'Hospital1'title ='Hospital1' value={this.state.check} onChange={() => this.checkBoxTest()} />
-                        <Text style = {{marginTop : 5}}>Hospital1</Text>
-                        </View>
 
-                        <View style = {styles.check} >
-                        <CheckBox key = 'Hospital1'title ='Hospital1' value={this.state.check} onChange={() => this.checkBoxTest()} />
-                        <Text style = {{marginTop : 5}}>Hospital2</Text>
-                        </View>
-
-                        <View style = {styles.check} >
-                        <CheckBox key = 'Hospital1'title ='Hospital1' value={this.state.check} onChange={() => this.checkBoxTest()} />
-                        <Text style = {{marginTop : 5}}>Hospital3</Text>
-                        </View>
-
-                        <Text>ไม่เคยรักษาเลือกที่นี่</Text>
-                        <View style = {styles.check} >
-                        <CheckBox key = 'Hospital1'title ='Hospital1' value={this.state.check} onChange={() => this.checkBoxTest()} />
-                        <Text style = {{marginTop : 5}}>This Hospital</Text>
-                        </View>
+                     </Picker>
 
                      <View style = {{alignItems : 'center'}}>
                        <TouchableOpacity onPress={this.towaitidp}><Text >ถัดไป</Text></TouchableOpacity>

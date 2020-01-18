@@ -28,7 +28,7 @@ export default class Routes extends Component {
     return(
         <Router>
             <Stack key = "root" hideNavBar = {true}>
-                <Scene key = "Login" component = {Login} title = "Login" />
+                <Scene key = "Login" component = {Login} title = "Login" initial ={true}  />
                 <Scene key = "OTP" component = {OTP} title = "OTP" />
                 <Scene key = "Menu" component = {Menu} title = "OTP" />
                 <Scene key = "Authen" component = {Authen} title = "Authen" />
@@ -38,11 +38,12 @@ export default class Routes extends Component {
                 <Scene key = "Tranferdata" component = {Tranferdata} title = "Tranferdata" />
                 <Scene key = "Service" component = {Service} title = "Service" />
                 <Scene key = "History" component = {History} title = "History" />
-                <Scene key = "Passcode" component = {Passcode} title = "Passcode" initial ={true} />
+                <Scene key = "Passcode" component = {Passcode} title = "Passcode" />
                 <Scene key = "PasscodeTranferdata" component = {PasscodeTranferdata} title = "PasscodeTranferdata"  />
                 <Scene key = "TermconTranfer" component = {TermconTranfer} title = "TermconTranfer"  />
                 <Scene key = "Idp" component = {Idp} title = "Idp"  />
                 <Scene key = "WaitIDP" component = {WaitIDP} title = "WaitIDP"  />
+                
             </Stack>
         </Router>
 

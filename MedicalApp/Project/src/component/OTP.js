@@ -13,7 +13,7 @@ export default class OTP extends Component{
                         style = {styles.input} />
 
 
-                    <TouchableOpacity onPress = {() => Actions.Signup()} style = {styles.buttonContainer}>
+                    <TouchableOpacity onPress = {() => Actions.Menu()} style = {styles.buttonContainer}>
                     <Text style={styles.buttonText}>ถัดไป</Text>
                     </TouchableOpacity>
                 </View>
@@ -47,8 +47,9 @@ const styles = StyleSheet.create({
         backgroundColor :'rgba(255, 255,255,0.3)',
         paddingVertical : 15,
         height :40,
-        width : 40,
+        width : 60,
         marginBottom : 20,
+        borderRadius : 25
 
    },
    buttonText :{

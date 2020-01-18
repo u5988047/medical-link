@@ -12,16 +12,28 @@ export default class LoginForm extends Component{
 
         return (
                 <View style = {styles.container}>
+                    
+                    
                     <TextInput 
-                    placeholder = "Phone Number"
-                    placeholderTextColor = 'white'
-                    keyboardType = 'number-pad'
+                    placeholder = "Username"
+                    placeholderTextColor = '#B40431'
+                    
                         style = {styles.input} />
 
+                    <TextInput 
+                    placeholder = "Password"
+                    placeholderTextColor = '#B40431'
+                    secureTextEntry = {true}
+                    
+                        style = {styles.input} />
 
                     <TouchableOpacity onPress = {() => Actions.OTP()} style = {styles.buttonContainer}>
                     <Text style={styles.buttonText}>ล็อคอิน</Text>
                     </TouchableOpacity>
+                   
+
+                    
+
                 </View>
 
                
@@ -34,7 +46,7 @@ export default class LoginForm extends Component{
 const styles = StyleSheet.create({
     container:{
       padding : 20,
-      flexDirection :'row',
+      
       justifyContent:'space-between',
       alignItems :'center'
       
@@ -44,20 +56,35 @@ const styles = StyleSheet.create({
        backgroundColor :'rgba(255, 255,255,0.3)',
        marginBottom : 20,
        paddingHorizontal : 10,
-       width : '80%'
+       width : '80%',
+       borderRadius : 25
        
    },
    buttonContainer :{
-        backgroundColor :'rgba(255, 255,255,0.3)',
+        backgroundColor :'#B40431',
         paddingVertical : 15,
         height :40,
         marginBottom : 20,
+        borderRadius : 25,
+        width : 300
 
    },
    buttonText :{
        textAlign:'center',
        color : 'white',
+       fontWeight : '500'
+       
+
       
-   }
+   },
+   user :{
+    padding : 20,
+    flexDirection :'row',
+    justifyContent:'space-between',
+    alignItems :'center'
+    
+  },
+   
+   
 
 });
