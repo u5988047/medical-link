@@ -2,13 +2,50 @@ import React, {Component} from 'react';
 import {StyleSheet, View,Text,Image, TextInput, TouchableOpacity,KeyboardType} from 'react-native';
 
 import {Actions } from 'react-native-router-flux';
-export default class LoginForm extends Component{
+import axios from 'axios';
 
+export default class LoginForm extends Component{
+    constructor() {
+        super();
+        this.state = {
+            datamong: [],
+        };
+    }
+
+    userInform(){
+        // var url = 'http://localhost:3000/users/checkuser';
+        // axios.get(url)
+        // .then((Data) => {
+        //   console.log(Data.data);
+        //   this.setState({
+        //     datamong: Data.data,
+        //   }) 
+        // })
+        axios({
+            url: 'http://10.0.75.1:3000/users/checkuser',
+            method: 'get',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          }).then((Data) => {
+              console.log(Data.data);
+              this.setState({
+                datamong: Data.data,
+              }) 
+            }).catch(e => {
+                console.log(e);
+              });
+        };
    /* OTP(){
         
         Action.OTP(PARAMS);
     }*/
     render() {
+
+        const dataMongo = this.state.datamong.map((item, index) => {
+            var arraymong = ['Username: ',item.username,', Password: ',item.password].join(' ');
+            return <Text style={{fontSize:20,fontWeight:'bold'}} key={index}>{arraymong}</Text>;
+        })
 
         return (
                 <View style = {styles.container}>
@@ -18,21 +55,30 @@ export default class LoginForm extends Component{
                     placeholder = "Username"
                     placeholderTextColor = '#B40431'
                     
-                        style = {styles.input} />
+                    style = {styles.input}
+                    onChangeText={(input1) => this.setState({input1})}
+                    value = {this.state.input1}    
+                    />
+                    
 
                     <TextInput 
                     placeholder = "Password"
                     placeholderTextColor = '#B40431'
                     secureTextEntry = {true}
                     
-                        style = {styles.input} />
+                        style = {styles.input} 
+                        onChangeText={(input2) => this.setState({input2})}
+                        value = {this.state.input2} 
+                    />
 
-                    <TouchableOpacity onPress = {() => Actions.OTP()} style = {styles.buttonContainer}>
+                    <TouchableOpacity onPress = {this.userInform.bind(this)} style = {styles.buttonContainer}>
                     <Text style={styles.buttonText}>ล็อคอิน</Text>
                     </TouchableOpacity>
                    
 
-                    
+                    <View style={{flexDirection:'column',alignItems:'center'}}>
+                        {dataMongo}
+                    </View>
 
                 </View>
 
