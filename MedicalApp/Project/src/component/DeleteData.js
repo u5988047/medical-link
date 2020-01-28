@@ -1,42 +1,38 @@
 import React, {Component} from 'react';
 import {StyleSheet, View,Text,Image, TextInput, TouchableOpacity} from 'react-native';
 import {Actions } from 'react-native-router-flux';
-import { CheckBox } from 'react-native';
 
-export default class TermconTranfer extends Component{
-
-    constructor(){
-        super();
-        this.state = {
-            check : false
-        }
-    }
-    checkBoxTest(){
-        this.setState({
-            check:! this.state.check
-        })
-    }
-    toTranferdata = () => {
-        Actions.Tranferdata()
+export default class Delete extends Component{
+    toIdp = () => {
+        Actions.IdpDelete()
     }
     render() {
 
         return (
                 <View style = {styles.container}>
-                     <Text style = {styles.head}>Terms and Conditions</Text>  
-                        <View style = {styles.center}>
-                            <CheckBox value={this.state.check} onChange={() => this.checkBoxTest()} />
-                            
-                            
-                        </View>
+                     <Text style = {styles.head}>Please enter your information (Delete)</Text>  
 
-
-                     <View style = {styles.center}>
-                       <TouchableOpacity style={styles.buttonContainer} onPress={this.toTranferdata}><Text style={{color :'white'}} >ถัดไป</Text></TouchableOpacity>
+                     <View style = {styles.inputcontainer}>
+                                <Text style ={{marginTop:10}}>หมายเลขบัตรประชาชน</Text>   
+                                         <TextInput 
+                                             placeholder = "11000505245256"
+                                             placeholderTextColor = 'gray'
+                                             keyboardType ='number-pad'
+                                             style = {styles.input} />
+                       
+                       </View>
+                       
+                    
+                    
+                    <View style = {{alignItems : 'center'}}>
+                       <TouchableOpacity onPress={this.toIdp}><Text >ถัดไป</Text></TouchableOpacity>
                     </View>
+
                 </View>
 
-                );
+               
+
+        );
     }
 
 }
@@ -45,7 +41,15 @@ const styles = StyleSheet.create({
         backgroundColor : 'white',
         flex : 1
               },
-       
+        option :{
+            flexDirection :'row',
+            height : 40,
+            width : '100%',
+            fontSize:30,
+            borderBottomColor: 'gray',
+            borderBottomWidth: 1,
+            backgroundColor :'white'
+        },
         head : {
             height : 40,
             backgroundColor :'#B40431',
@@ -80,21 +84,6 @@ const styles = StyleSheet.create({
             
             flex : 1
             
-        },
-        center :{
-        
-            alignItems :'center',
-            paddingBottom : 10
-        },
-        buttonContainer :{
-            backgroundColor: '#B40431',
-            paddingVertical:5,
-            borderRadius : 25,
-            width : 200,
-            alignItems : 'center',
-            justifyContent :'center',
-            textAlign : 'center',
-            alignItems: 'center'
         },
 
 });
