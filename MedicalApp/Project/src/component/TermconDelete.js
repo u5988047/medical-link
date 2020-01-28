@@ -3,7 +3,7 @@ import {StyleSheet, View,Text,Image, TextInput, TouchableOpacity} from 'react-na
 import {Actions } from 'react-native-router-flux';
 import { CheckBox } from 'react-native';
 
-export default class TermconTranfer extends Component{
+export default class TermconDelete extends Component{
 
     constructor(){
         super();
@@ -16,14 +16,14 @@ export default class TermconTranfer extends Component{
             check:! this.state.check
         })
     }
-    toTranferdata = () => {
-        Actions.Tranferdata()
+    toDeleteData = () => {
+        Actions.DeleteData()
     }
     render() {
 
         return (
                 <View style = {styles.container}>
-                     <Text style = {styles.head}>Terms and Conditions</Text>  
+                     <Text style = {styles.head}>Terms and Conditions(Delete Information)</Text>  
                         <View style = {styles.center}>
                             <CheckBox value={this.state.check} onChange={() => this.checkBoxTest()} />
                             
@@ -32,7 +32,7 @@ export default class TermconTranfer extends Component{
 
 
                      <View style = {styles.center}>
-                       <TouchableOpacity style={styles.buttonContainer} onPress={this.toTranferdata}><Text style={{color :'white'}} >ถัดไป</Text></TouchableOpacity>
+                       <TouchableOpacity style={styles.buttonContainer} onPress={this.toDeleteData}><Text style={{color :'white'}} >ถัดไป</Text></TouchableOpacity>
                     </View>
                 </View>
 

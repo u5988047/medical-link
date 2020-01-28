@@ -9,6 +9,7 @@ var cors = require('cors');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users.js');
 var apiRouter = require('./routes/api.js');
+var drugReceipt = require('./routes/drugReceipt.js');
 
 const bodyParser = require('body-parser');
 
@@ -56,6 +57,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/api', apiRouter);
+app.use('/drugReceipt',drugReceipt);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

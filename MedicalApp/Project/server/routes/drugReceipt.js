@@ -6,8 +6,8 @@ var db = mongojs("mongodb+srv://khachen:Pondsk134@cluster0-x8w0t.mongodb.net/med
 
 
 /* GET users listing. */
-router.get("/checkuser", (req,res,next) => {
-  db.hospital.find(function(err, user) {
+router.get("/drugReceipt", (req,res,next) => {
+  db.DrugReceipt.find(function(err, user) {
     if(err) {
       res.send(err);
     }

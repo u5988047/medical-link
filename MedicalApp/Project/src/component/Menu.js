@@ -6,9 +6,9 @@ export default class Menu extends Component{
         
             Actions.Authen()
         }
-    toEkyc = () => {
+    toReceipt = () => {
         
-            Actions.Ekyc()
+            Actions.drugReceipt()
         }
     render() {
 
@@ -43,7 +43,7 @@ export default class Menu extends Component{
                     </TouchableOpacity>
                     <TouchableOpacity 
                     style={styles.backgroundColor}
-                    onPress={this.toEkyc}>
+                    onPress={this.toReceipt}>
                     <View style = {{ 
                         backgroundColor : '#FFFF' , 
                         width : 180, 
