@@ -13,4 +13,18 @@ router.get("/checkuser", (req,res,next) => {
   })
 });
 
+router.post("/verifyuser", (req,res,next) => {
+  var tname = req.body.name;
+  var tpass = req.body.pass;
+  db.hospital.findOne({'username': req.body.name, 'password': req.body.pass}, (err, user)=> {
+    if(!user) {
+      res.json({message: 'Login failed'});
+    }
+    else{
+    console.log('success');
+    res.status(200).send('Logged in success');
+    }
+  })
+});
+
 module.exports = router;

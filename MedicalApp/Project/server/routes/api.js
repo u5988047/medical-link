@@ -20,18 +20,18 @@ router.post('/sendform', function(req, res) {
 });
 
 router.post('/request', function(req, res) {
-  // console.log(req.body)
+   console.log(req.body)
   
     if(save_to_db()) {
         var reference_id = `ref_${generateRefId(10)}${generateRefId(10)}`
         axios({
             method: 'post',
-            url: `http://localhost:8200/rp/requests/citizen_id/${req.body.id}`,
+            url: `http://127.0.0.1:8200/rp/requests/citizen_id/${req.body.id}`,
             headers: {
               'Content-Type': 'application/json',
             },
             data: {
-              mode: 1,
+              mode: 2,
               node_id: 'rp1',
               reference_id,
               idp_id_list: [req.body.idp],
