@@ -4,7 +4,7 @@ var axios = require('axios');
 
 router.post('/sendform', function(req, res) {
     axios({
-      url: 'http://localhost:8200/utility/idp',
+      url: 'http://18.191.152.13:8200/utility/idp',
       method: 'get',
       headers: {
         'Content-Type': 'application/json',
@@ -20,13 +20,13 @@ router.post('/sendform', function(req, res) {
 });
 
 router.post('/request', function(req, res) {
-   console.log(req.body)
+   console.log(req.body.id, req.body.idp)
   
     if(save_to_db()) {
         var reference_id = `ref_${generateRefId(10)}${generateRefId(10)}`
         axios({
             method: 'post',
-            url: `http://127.0.0.1:8200/rp/requests/citizen_id/${req.body.id}`,
+            url: `http://18.191.152.13:8200/rp/requests/citizen_id/${req.body.id}`,
             headers: {
               'Content-Type': 'application/json',
             },
@@ -45,14 +45,18 @@ router.post('/request', function(req, res) {
               bypass_identity_check: false,
             }
           }).then(r => {
-            console.log(r)
-
-            res.send({
-              request_id: r.data.request_id,
-              initial_salt: r.data.initial_salt,
-              reference_id,
-            })
-
+            if(r.status == 202){
+              console.log('success');
+              console.log(r.data);
+              res.send({
+                request_id: r.data.request_id,
+                initial_salt: r.data.initial_salt,
+                reference_id,
+              })
+            }
+            else{
+              console.log(r)
+            }
         
           }).catch(e => {
             console.log(e)

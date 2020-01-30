@@ -16,15 +16,15 @@ router.get("/checkuser", (req,res,next) => {
 });
 
 router.post("/verifyuser", (req,res,next) => {
-  var tname = req.body.name;
-  var tpass = req.body.pass;
+  console.log(req.body.name, req.body.pass)
   db.hospital.findOne({'username': req.body.name, 'password': req.body.pass}, (err, user)=> {
     if(!user) {
-      res.json({message: 'Login failed'});
+      console.log('fail');
+      res.json({ status: 400, msg: "Login fail", success: false})
     }
     else{
     console.log('success');
-    res.status(200).send('Logged in success');
+    res.json({ status: 200, msg: "Login Sucessful", success: true});
     }
   })
 });

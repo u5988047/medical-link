@@ -11,9 +11,7 @@ export default class drugReceipt extends Component{
         super();
         this.state = {
             datadrug: [],  
-            check : false,
-            one : false,
-            two : false
+            
            
         };
         
@@ -61,6 +59,10 @@ export default class drugReceipt extends Component{
     toIDP = () => {
         
             Actions.WaitIDPReceipt()
+        }
+    toInput = () => {
+        
+            Actions.drugInputID()
         }
     render() {
         const dataMongo = this.state.datadrug.map((item, index) => {
@@ -133,7 +135,7 @@ export default class drugReceipt extends Component{
                     </View>
                    
                    <View style = {{alignItems :'flex-end'}}>
-                       <TouchableOpacity style = {styles.buttonReceipt} onPress ={this.toIDP}>
+                       <TouchableOpacity style = {styles.buttonReceipt} onPress ={this.toInput}>
                            <Text style = {{color:'white'}}>ยืนยันการรับยา</Text>
                        </TouchableOpacity>
                    </View>

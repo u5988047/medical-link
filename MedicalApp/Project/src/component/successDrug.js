@@ -3,28 +3,39 @@ import {StyleSheet, View,Text,Image, TextInput, TouchableOpacity} from 'react-na
 import {Actions } from 'react-native-router-flux';
 
 export default class WaitIDPDelete extends Component{
+
+    constructor() {
+        super();
+        this.state = {
+      };
+        
+    }
+
+    
     toresult = () => {
         Actions.Menu()
 }
   
     render() {
+        
+
 
         return (
                 <View style = {styles.container}>
-                     <Text style = {styles.head}>Wait for IDP consent(Drug Receipt)</Text>  
-                        <View style = {styles.logoContainer}>
+                     <Text style = {styles.head}>Success</Text>  
+
+                     <View style = {styles.logoContainer}>
                         <Image style = {styles.logo} 
-                        source = { require('../images/user1.png')} 
+                        source = { require('../images/success.png')} 
                     />
-                        <Text style = {styles.title}>NDID Medical Application</Text>
-                
+
                     </View>
-                        
-       
-                    <View style = {{   borderRadius : 25,margin :50 ,marginBottom : 20}}>
-                        <TouchableOpacity style={styles.buttonContainer} onPress={this.toresult}><Text style={styles.buttonText} >ถัดไป</Text></TouchableOpacity>
-                    </View>
-                   
+                     
+                <View style = {{alignItems : 'flex-end'}}>
+                    <TouchableOpacity style = {styles.buttonContainer}onPress={this.toresult}>
+                        <Text>กลับสู่หน้าเมนู</Text>
+                    </TouchableOpacity>
+                </View>          
                        
 
                 </View>
@@ -61,15 +72,15 @@ const styles = StyleSheet.create({
             justifyContent:'center'
         },
         buttonContainer :{
-            backgroundColor: '#B40431',
-            paddingVertical:5
-        },
-        buttonText: {
-            textAlign: 'center',
-            color: '#FFFF',
-            fontWeight:'400',
-             height: 30,
-             fontSize:20
-        },
+            backgroundColor :'green',
+            paddingVertical : 15,
+            height :50,
+            width : 100,
+            marginBottom : 20,
+            borderRadius : 25,
+            alignItems :'center'
+            
+    
+       },
        
 });

@@ -22,7 +22,10 @@ import DeleteData from './component/DeleteData';
 import IdpDelete from './component/IdpDelete';
 import WaitIDPDelete from './component/WaitIDPDelete';
 import drugInformation from './component/drugInformation';
-import WaitIDPReceipt from './component/WaitIDPReceipt';
+import WaitIDPReceipt from './component/codeDrugReceipt';
+import drugInputID from './component/drugInputID';
+import codeDrugReceipt from './component/codeDrugReceipt';
+import successDrug from './component/successDrug';
 
 
 
@@ -55,7 +58,9 @@ export default class Routes extends Component {
                 <Scene key = "WaitIDPDelete" component = {WaitIDPDelete} title = "WaitIDPDelete" />
                 <Scene key = "drugInformation" component = {drugInformation} title = "drugInformation" />
                 <Scene key = "WaitIDPReceipt" component = {WaitIDPReceipt} title = "WaitIDPReceipt" />
-                
+                <Scene key = "drugInputID" component= {drugInputID} title = "drugInputID" />
+                <Scene key = "codeDrugReceipt" component = {codeDrugReceipt} title="codeDrugReceipt" />
+                <Scene key = "successDrug" component = {successDrug} title = "successDrug" />
             </Stack>
         </Router>
 

@@ -12,19 +12,19 @@ export default class LoginForm extends Component{
             temparray: [],
             input1: String,
             input2: String,
-            user_name: '',
-            password: '',
             error: false,
-            loginSucess: false
+            loginSucess: false,
+            username: 'park',
+            password: '1234'
         };
         
     }
-    state = {
+    // state = {
         
 
-        username: 'park',
-        password: '1234'
-    };
+    //     username: 'park',
+    //     password: '1234'
+    // };
     
     // handleChange= (event = {}) => {
     //     const name = event.target && event.target.name;
@@ -46,7 +46,7 @@ export default class LoginForm extends Component{
 
     onSubmit = async (e) => {
         const data = {
-          user_name: this.state.user_name,
+          user_name: this.state.username,
           password: this.state.password,
         };
         const loginResult = await LoginService(data);
@@ -78,7 +78,7 @@ export default class LoginForm extends Component{
               'Content-Type': 'application/json',
             },
           }).then((Data) => {
-              console.log(Data.data);
+              console.log(JSON.stringify(Data.data));
               this.setState({
                 datamong: Data.data,
               }) 
@@ -104,21 +104,17 @@ export default class LoginForm extends Component{
     //     this.state.input2 = '';
     //   };
     verifyUser() {
-        axios({
-            url: 'http://10.0.75.1:3000/users/verifyuser',
-            method: 'post',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            name: this.state.input1,
-            pass: this.state.input2
-            }).then((response) => {
+            var url = 'http://192.168.1.10:3000/users/verifyuser';
+            axios.post(url, {
+                name: this.state.username,
+                pass: this.state.password
+            })
+            .then(function (response) {
               console.log(response);
-            }).catch(e => {
-                console.log(e);
+            })
+            .catch(function (error) {
+              console.log(error);
             });
-            this.state.input1 = '';
-            this.state.input2 = '';
         };
 
     renderItems() {
@@ -170,11 +166,38 @@ export default class LoginForm extends Component{
                     // value = {this.state.input2} 
                     />
 
-                    <View style={{flexDirection:'column',alignItems:'center'}}>
+                    {/* <View style={{flexDirection:'column',alignItems:'center'}}> */}
                         {/* {dataMongo} */}
-                        <Text style={{fontSize:20,fontWeight:'bold'}}>{this.state.input1} {this.state.input2}</Text>
-                    </View>
-                    <TouchableOpacity onPress = {this.verifyUser.bind(this)} style = {styles.buttonContainer}>
+                        {/* <Text style={{fontSize:20,fontWeight:'bold'}}>{this.state.input1} {this.state.input2}</Text> */}
+                    {/* </View> */}
+                    
+                    <TouchableOpacity onPress = {() => 
+                      {
+                        var url = 'http://192.168.1.10:3000/users/verifyuser';
+                        var status;
+                          axios.post(url, {
+                              name: this.state.username,
+                              pass: this.state.password
+                          })
+                          .then(function (response) {
+                            console.log(response);
+                            status = response.status;
+                            console.log(status);
+                          })
+                          .catch(function (error) {
+                            console.log(error);
+                          });
+
+                        if(this.status == "200") {
+                            Actions.OTP()
+                          }
+                          else{
+                            ToastAndroid.show('Invalid UserName or Password',ToastAndroid.SHORT);
+                          }
+                      } 
+                    }
+                    style = {styles.buttonContainer}                  
+                    >
                     <Text style={styles.buttonText}>ล็อคอิน</Text>
                     </TouchableOpacity>
 
@@ -182,10 +205,10 @@ export default class LoginForm extends Component{
         title="LOGIN"
         onPress={() => 
             {
-
                 // for(var i=0;arraymong.)
                 if(this.state.username.localeCompare('park')!=0){
                     ToastAndroid.show('Invalid UserName',ToastAndroid.SHORT);
+                    console.log(this.state.username)
                     return;
                 }
                 if(this.state.password.localeCompare('1234')!=0){

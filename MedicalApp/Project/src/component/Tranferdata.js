@@ -1,12 +1,44 @@
 import React, {Component} from 'react';
-import {StyleSheet, View,Text,Image, TextInput, TouchableOpacity} from 'react-native';
+import {StyleSheet, View,Text,Image, TextInput, TouchableOpacity, Button} from 'react-native';
 import {Actions } from 'react-native-router-flux';
+import axios from 'axios';
 
 export default class Tranferdata extends Component{
     toIdp = () => {
         Actions.Idp()
     }
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            citizen_id: '',
+        };
+        
+    }
+
+
+    //Function call API route to sendform
+    sendrequest() {
+        var url = 'http://192.168.1.10:3000/api/request';
+        var id;
+        axios.post(url, {
+                id: this.state.citizen_id,
+                idp: "idp1"
+        })
+        .then(function (res) {
+          console.log(res);
+        })
+        .catch(function (error) {
+        //   console.log(error);
+        });
+    }
+
+
     render() {
+        const data = {
+            citizen_id: this.state.citizen_id,
+            idp: "idp1"
+        }
 
         return (
                 <View style = {styles.container}>
@@ -18,7 +50,10 @@ export default class Tranferdata extends Component{
                                              placeholder = "11000505245256"
                                              placeholderTextColor = 'gray'
                                              keyboardType ='number-pad'
-                                             style = {styles.input} />
+                                             style = {styles.input}
+                                             onChangeText={(value) => this.setState({citizen_id: value})}
+                                             value={this.state.citizen_id}
+                                        />
                        
                        </View>
                        {/* <View style = {styles.inputcontainer}>
@@ -50,9 +85,13 @@ export default class Tranferdata extends Component{
         </View>*/}
                     
                     
-                    <View style = {{alignItems : 'center'}}>
+                    <Button
+                            title="ส่งข้อมูลยืนยัน"
+                            onPress={this.sendrequest.bind(this)}
+                            style = {{paddingVertical: 20}}
+                        />
                        <TouchableOpacity onPress={this.toIdp}><Text >ถัดไป</Text></TouchableOpacity>
-                    </View>
+
 
                 </View>
 
@@ -65,7 +104,9 @@ export default class Tranferdata extends Component{
 const styles = StyleSheet.create({
     container:{
         backgroundColor : 'white',
-        flex : 1
+        flex : 1,
+        alignItems: 'center',
+        paddingVertical: 20
               },
         option :{
             flexDirection :'row',
