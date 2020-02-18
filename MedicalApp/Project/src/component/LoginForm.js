@@ -14,8 +14,8 @@ export default class LoginForm extends Component{
             input2: String,
             error: false,
             loginSucess: false,
-            username: 'park',
-            password: '1234'
+            username: String,
+            password: String
         };
         
     }
@@ -171,9 +171,9 @@ export default class LoginForm extends Component{
                         {/* <Text style={{fontSize:20,fontWeight:'bold'}}>{this.state.input1} {this.state.input2}</Text> */}
                     {/* </View> */}
                     
-                    <TouchableOpacity onPress = {() => 
+                    {/* <TouchableOpacity onPress = {() => 
                       {
-                        var url = 'http://192.168.1.10:3000/users/verifyuser';
+                        var url = 'http://192.168.43.168:3000/users/verifyuser';
                         var status;
                           axios.post(url, {
                               name: this.state.username,
@@ -199,14 +199,14 @@ export default class LoginForm extends Component{
                     style = {styles.buttonContainer}                  
                     >
                     <Text style={styles.buttonText}>ล็อคอิน</Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
 
     <Button
         title="LOGIN"
         onPress={() => 
             {
                 // for(var i=0;arraymong.)
-                if(this.state.username.localeCompare('park')!=0){
+                if(this.state.username.localeCompare('demo@mahidol.ac.th')!=0){
                     ToastAndroid.show('Invalid UserName',ToastAndroid.SHORT);
                     console.log(this.state.username)
                     return;

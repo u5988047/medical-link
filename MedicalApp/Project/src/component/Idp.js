@@ -30,8 +30,6 @@ export default class Tranferdata extends Component{
                         <Picker.Item label ="กรุณาเลือกโรงพยาบาลที่มีข้อมูล" value="" />
                         <Picker.Item label ="Hospital1" value="Hospital1" />
                         <Picker.Item label ="Hospital2" value="Hospital2" />
-
-
                      </Picker>
 
                      <View style = {{alignItems : 'center'}}>

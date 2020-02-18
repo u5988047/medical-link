@@ -40,7 +40,7 @@ export default class drugReceipt extends Component{
         //   }) 
         // })
         axios({
-            url: 'http://192.168.1.10:3000/drugReceipt/drugReceipt',
+            url: 'http://192.168.43.168:3000/drugReceipt/drugReceipt',
             method: 'get',
             headers: {
               'Content-Type': 'application/json',

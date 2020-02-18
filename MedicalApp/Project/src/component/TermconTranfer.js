@@ -8,12 +8,12 @@ export default class TermconTranfer extends Component{
     constructor(){
         super();
         this.state = {
-            check : false
+            checked : true
         }
     }
     checkBoxTest(){
         this.setState({
-            check:! this.state.check
+            check:! this.state.checked
         })
     }
     toTranferdata = () => {
@@ -23,14 +23,22 @@ export default class TermconTranfer extends Component{
 
         return (
                 <View style = {styles.container}>
-                     <Text style = {styles.head}>Terms and Conditions</Text>  
-                        <View style = {styles.center}>
-                            <CheckBox value={this.state.check} onChange={() => this.checkBoxTest()} />
-                            
-                            
-                        </View>
-
-
+                     <Text style = {styles.head}>Terms and Conditions</Text>
+                        <Text style = {{paddingHorizontal:20, paddingVertical:20}}>แอพพลิเคชั่นสงวนสิทธิ์ในการจัดให้มีแอพพลิเคชั่นนี้เพื่ออำนวยความสะดวกในการติดต่อสื่อสารระหว่างท่านกับแอพพลิเคชั่นที่ต้องการทราบข้อมูลข่าวสาร ความเคลื่อนไหวต่างๆ ในการดำเนินธุรกิจของแอพพลิเคชั่น ทั้งนี้ ข้อมูลและสาระสำคัญที่ปรากฏในหน้าจอต่างๆ ตลอดจนข้อกำหนด เงื่อนไข และรายละเอียดต่างๆ ความถูกต้องครบถ้วนสมบูรณ์ ความเป็นปัจจุบัน และความต่อเนื่องของข้อมูลในเว็บไซต์นั้น อาจเปลี่ยนแปลงได้ตามดุลยพินิจของแอพพลิเคชั่น แอพพลิเคชั่นขอสงวนสิทธิ์ในคัดเลือกผู้ประสงค์ใช้บริการ การระงับหรือจำกัดขอบเขต รวมถึงการปฏิเสธสิทธิในการใช้บริการทางเว็บไซต์ทั้งหมดหรือบางส่วนแก่ผู้ใดก็ได้ตามเกณฑ์ของแอพพลิเคชั่น โดยไม่ต้องทำการแจ้งให้ท่านทราบแต่อย่างใด และไม่ถือว่าเป็นการกระทำให้ท่านหรือบุคคลใดเกิดความเสียหายใดๆ ไม่ว่าทางตรงหรือทางอ้อม และจะไม่ยกเว้นเงื่อนไขการให้บริการข้อมูลนี้ไม่ว่าส่วนใดให้แก่ผู้ใดทั้งสิ้น เว้นแต่จะทำเป็นลายลักษณ์อักษร และลงนามโดยผู้มีอำนาจลงนามของแอพพลิเคชั่น ทั้งนี้ หากท่านไม่สามารถดำเนินการได้ตามข้อตกลงและเงื่อนไขการใช้บริการ กรุณาหยุดการเข้าเว็บไซต์โดยทันที</Text>  
+                        {/* <View style = {styles.center}>
+                            <CheckBox value={this.state.check} onChange={() => this.checkBoxTest()} />  
+                        </View> */}
+                    <View style={{ flexDirection: 'column'}}>
+                      <View style={{ flexDirection: 'row' , paddingLeft: 12}}>
+                        <CheckBox
+                          style = {{paddingBottom: 10}}
+                          value={this.state.checked}
+                          onValueChange={() => this.setState({ checked: !this.state.checked })}
+                        />
+                        <Text style={{marginTop: 5}}>ยอมรับข้อตกลงและเงื่อนไข</Text>
+                      </View>
+                    </View>
+                        
                      <View style = {styles.center}>
                        <TouchableOpacity style={styles.buttonContainer} onPress={this.toTranferdata}><Text style={{color :'white'}} >ถัดไป</Text></TouchableOpacity>
                     </View>

@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var axios = require('axios');
 
-router.post('/sendform', function(req, res) {
+router.post('/showidp', function(req, res) {
     axios({
       url: 'http://18.191.152.13:8200/utility/idp',
       method: 'get',

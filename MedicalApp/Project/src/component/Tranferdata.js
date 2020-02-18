@@ -1,17 +1,20 @@
 import React, {Component} from 'react';
-import {StyleSheet, View,Text,Image, TextInput, TouchableOpacity, Button} from 'react-native';
-import {Actions } from 'react-native-router-flux';
+import {StyleSheet, View,Text,Image, TextInput, TouchableOpacity, Button,Picker} from 'react-native';
+import {Actions} from 'react-native-router-flux';
 import axios from 'axios';
 
 export default class Tranferdata extends Component{
     toIdp = () => {
-        Actions.Idp()
+        Actions.WaitIDP()
     }
 
     constructor(props) {
         super(props);
         this.state = {
             citizen_id: '',
+            idp :'',
+            placeholderPicker :'กรุณาเลือกidp'
+            
         };
         
     }
@@ -19,11 +22,12 @@ export default class Tranferdata extends Component{
 
     //Function call API route to sendform
     sendrequest() {
-        var url = 'http://192.168.1.10:3000/api/request';
+        var url = 'http://192.168.43.168:3000/api/request';
         var id;
         axios.post(url, {
                 id: this.state.citizen_id,
-                idp: "idp1"
+                // idp: "idp2",
+                idp : this.state.idp
         })
         .then(function (res) {
           console.log(res);
@@ -37,7 +41,7 @@ export default class Tranferdata extends Component{
     render() {
         const data = {
             citizen_id: this.state.citizen_id,
-            idp: "idp1"
+            idp: this.state.idp
         }
 
         return (
@@ -56,6 +60,21 @@ export default class Tranferdata extends Component{
                                         />
                        
                        </View>
+                       
+                       <View style = {styles.inputcontainer}> 
+                     <Picker
+                     style = {{width:'100%'}}
+                     selectedValue = {this.state.idp}
+                     onValueChange ={(value) => this.setState({idp:value, placeholderPicker:value})}
+                     >
+                        <Picker.Item label ={this.state.placeholderPicker} value="" />
+                        <Picker.Item label ="Hospital1" value="idp1"/>
+                        <Picker.Item label ="Hospital2" value="idp2" />
+
+
+                     </Picker>
+                     
+                     </View>
                        {/* <View style = {styles.inputcontainer}>
                                 <Text style = {styles.inputheader}>ชื่อ-นามสกุล</Text>   
                                          <TextInput 
@@ -84,13 +103,14 @@ export default class Tranferdata extends Component{
                        <ModalDropdown options={['โรงพยาบาลศิริราช', 'โรงพยาบาลพญาไท3']}/>
         </View>*/}
                     
-                    
+                    <View style = {{paddingVertical:20}}>
                     <Button
                             title="ส่งข้อมูลยืนยัน"
                             onPress={this.sendrequest.bind(this)}
-                            style = {{paddingVertical: 20}}
+                            style = {{paddingBottom: 20}}
                         />
-                       <TouchableOpacity onPress={this.toIdp}><Text >ถัดไป</Text></TouchableOpacity>
+                    </View>
+                       <TouchableOpacity style={styles.buttonContainer} onPress={this.toIdp}><Text >ถัดไป</Text></TouchableOpacity>
 
 
                 </View>
@@ -134,6 +154,7 @@ const styles = StyleSheet.create({
             flexDirection : 'row',
             borderBottomColor: 'gray',
             borderBottomWidth: 1,
+            paddingBottom :10
             
            /* justifyContent : 'center',
             alignItems:'center',
@@ -151,6 +172,16 @@ const styles = StyleSheet.create({
             
             flex : 1
             
+        },
+        buttonContainer :{
+            backgroundColor: '#B40431',
+            paddingVertical:5,
+            borderRadius : 25,
+            width : 200,
+            alignItems : 'center',
+            justifyContent :'center',
+            textAlign : 'center',
+            alignItems: 'center'
         },
 
 });
