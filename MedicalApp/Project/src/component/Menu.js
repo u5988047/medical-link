@@ -13,10 +13,7 @@ export default class Menu extends Component{
     render() {
 
         return (
-                <View style = {styles.container}>
-                    
-
-                    
+                <View style = {styles.container}> 
                     <TouchableOpacity 
                     style={styles.backgroundColor}
                     onPress={this.toAuthen}>
@@ -33,10 +30,7 @@ export default class Menu extends Component{
                             <Image style = {{ width : 90 , height : 100}} 
                         source = { require('../images/Card.png')} />
                         <Text style = {{
-                            textAlign :'center',
-                            
-                    
-                           
+                            textAlign :'center',                           
                         }}>Medical Data(ข้อมูลการแพทย์)</Text>
 
                     </View>
@@ -50,16 +44,12 @@ export default class Menu extends Component{
                         height : 200,
                         borderRadius : 10,
                         margin :10,
-                        alignItems : "center"
-                        
-                        
+                        alignItems : "center"                                                
                         }}>
                             <Image style = {{ width : 90 , height : 100, }} 
                         source = { require('../images/Receipt.png')} />
                         <Text style = {{
-                            textAlign :'center',
-                            
-                            
+                            textAlign :'center',        
                         }}> Drug receipt (ใบรับยา)</Text>
 
                     </View>
@@ -74,10 +64,7 @@ const styles = StyleSheet.create({
     container:{
         backgroundColor : '#B40431',
         flex : 1,
-        flexDirection :'row',
-        
-        
-      
+        flexDirection :'row',      
     },
     head : {
         height : 40,

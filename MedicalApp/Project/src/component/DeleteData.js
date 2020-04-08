@@ -19,22 +19,13 @@ export default class Delete extends Component{
                                              placeholderTextColor = 'gray'
                                              keyboardType ='number-pad'
                                              style = {styles.input} />
-                       
                        </View>
-                       
-                    
-                    
                     <View style = {{alignItems : 'center'}}>
                        <TouchableOpacity onPress={this.toIdp}><Text >ถัดไป</Text></TouchableOpacity>
                     </View>
-
                 </View>
-
-               
-
         );
     }
-
 }
 const styles = StyleSheet.create({
     container:{

@@ -1,32 +1,25 @@
 import React, {Component} from 'react';
 import {StyleSheet, View,Text,Image} from 'react-native';
-import LoginForm from './LoginForm';
+import LoginForms from './LoginForms';
 /*export const IMAGENAME = require('./health.png');
 import { IMAGENAME } from '../images';*/
 export default class Login extends Component{
-    render() {
 
+    render() {
         return (
                 <View style = {styles.container}>
                     <View style = {styles.logoContainer}>
                         <Image style = {styles.logo} 
                         source = { require('../images/health.png')} 
                     />
-                        <Text style = {styles.title}>NDID Medical Application</Text>
-                
+                        <Text style = {styles.title}>NDID Medical Application</Text>               
                     </View>
-
                     <View style = {styles.formContainer}>
-                        <LoginForm />
-                    </View>
-
-                   
+                        <LoginForms />
+                    </View>                   
                 </View>
-
-
         );
     }
-
 }
 
 const styles = StyleSheet.create({

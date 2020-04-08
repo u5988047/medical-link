@@ -5,8 +5,7 @@ import {Actions } from 'react-native-router-flux';
 export default class WaitIDPDelete extends Component{
     toresult = () => {
         Actions.Menu()
-}
-  
+}  
     render() {
 
         return (

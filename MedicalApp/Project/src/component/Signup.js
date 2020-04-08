@@ -6,41 +6,18 @@ export default class Signup extends Component{
 
     tomenu = () => {
         Actions.Menu()
-}
-toekyc = () => {
-    Actions.Ekyc()
-}
-    render() {
+    }
 
+    toekyc = () => {
+        Actions.Ekyc()
+    }
+
+    render() {
         return (
                 <View style = {styles.container}>
                         <Text style = {styles.head}>Authentication </Text>
-                    <View style = {styles.logoContainer}>
-                        <Image style = {styles.logo} 
-                        source = { require('../images/user1.png')} 
-                    />
-                        <Text style = {styles.title}>NDID Medical Application</Text>
-                
-                    </View>
-                        
-                    <View style = {{   borderRadius : 25,margin :50, marginBottom : 1}}>
-                        <TouchableOpacity style={styles.buttonContainer} onPress={this.toekyc}><Text style={styles.buttonText} >ส่งข้อมูลยืนยันตัวตน</Text></TouchableOpacity>
-                    </View>    
-                    <View style = {{   borderRadius : 25,margin :50 ,marginBottom : 20}}>
-                        <TouchableOpacity style={styles.buttonContainer} onPress={this.tomenu}><Text style={styles.buttonText} >ภายหลัง</Text></TouchableOpacity>
-                    </View>
-                    {/*<TouchableOpacity style = {{borderWidth : 1, height : 42 , width : "80%"
-                        ,justifyContent : "center" , alignItems :"center ", borderRadius : 40,
-                        backgroundColor : "black",  alignSelf : "center", textAlign :"center"}}>
-                            <Text style = {{color = "white"}}>bb</Text>
-                            
-                </TouchableOpacity>*/}
-                    
-
                 </View>
-
-               
-
+                
         );
     }
 

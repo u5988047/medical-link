@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {StyleSheet, View,Text,Image, TextInput, TouchableOpacity} from 'react-native';
-import {Actions } from 'react-native-router-flux';
+import { Actions } from 'react-native-router-flux';
 import { CheckBox } from 'react-native';
 
 export default class TermconTranfer extends Component{

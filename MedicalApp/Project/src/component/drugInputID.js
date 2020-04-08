@@ -17,20 +17,14 @@ export default class drugInputID extends Component{
                     </View> */}
                     <View style = {{flexDirection :'row',justifyContent:'space-around'}}>
                     <TextInput 
-                    placeholder = "00001"
-                    placeholderTextColor = 'white'
-                    
+                        placeholder = "00001"
+                        placeholderTextColor = 'white'                   
                         style = {styles.input} />
-
-
                     <TouchableOpacity onPress = {this.tocodeDrug} style = {styles.buttonContainer}>
                     <Text style={styles.buttonText}>ถัดไป</Text>
                     </TouchableOpacity>
                     </View>
-
                 </View>
-
-               
 
         );
     }

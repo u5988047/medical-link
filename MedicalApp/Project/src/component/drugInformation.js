@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {StyleSheet, View,Text,Image, TextInput, TouchableOpacity, Button,CheckBox,} from 'react-native';
 import {Actions } from 'react-native-router-flux';
 import axios from 'axios';
+import { API_IP } from 'react-native-dotenv';
 export default class drugReceipt extends Component{
     // toAuthen = () => {
         
@@ -40,7 +41,7 @@ export default class drugReceipt extends Component{
         //   }) 
         // })
         axios({
-            url: 'http://192.168.43.168:3000/drugReceipt/drugReceipt',
+            url: 'http://'+API_IP+':3000/drugReceipt/drugReceipt',
             method: 'get',
             headers: {
               'Content-Type': 'application/json',

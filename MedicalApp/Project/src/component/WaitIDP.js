@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {StyleSheet, View,Text,Image, TextInput, TouchableOpacity} from 'react-native';
-import {Actions } from 'react-native-router-flux';
+import { Actions } from 'react-native-router-flux';
 
 export default class WaitIDP extends Component{
     toresult = () => {
@@ -18,19 +18,11 @@ export default class WaitIDP extends Component{
                     />
                         <Text style = {styles.title}>NDID Medical Application</Text>
                 
-                    </View>
-                        
-       
+                    </View>       
                     <View style = {{   borderRadius : 25,margin :50 ,marginBottom : 20}}>
                         <TouchableOpacity style={styles.buttonContainer} onPress={this.toresult}><Text style={styles.buttonText} >ถัดไป</Text></TouchableOpacity>
-                    </View>
-                   
-                       
-
-                </View>
-
-               
-
+                    </View>   
+                </View>   
         );
     }
 

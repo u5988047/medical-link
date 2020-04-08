@@ -1,5 +1,4 @@
 import React , {Component } from 'react';
-
 import {Router, Stack,Scene} from 'react-native-router-flux';
 
 import Login from './component/Login';
@@ -26,10 +25,6 @@ import WaitIDPReceipt from './component/codeDrugReceipt';
 import drugInputID from './component/drugInputID';
 import codeDrugReceipt from './component/codeDrugReceipt';
 import successDrug from './component/successDrug';
-
-
-
-
 
 export default class Routes extends Component {
      
@@ -63,8 +58,6 @@ export default class Routes extends Component {
                 <Scene key = "successDrug" component = {successDrug} title = "successDrug" />
             </Stack>
         </Router>
-
-    )
-
+        )
     }
 }

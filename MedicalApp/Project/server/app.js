@@ -3,7 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-
+require('dotenv').config();
 var cors = require('cors');
 
 var indexRouter = require('./routes/index');
@@ -14,32 +14,6 @@ var drugReceipt = require('./routes/drugReceipt.js');
 const bodyParser = require('body-parser');
 
 var app = express();
-
-//for NSC Temp
-// var mongo = require('mongodb').MongoClient;
-// var url = 'mongodb+srv://anajak:park4568@cluster0-r6fmo.mongodb.net/medicallink?retryWrites=true&w=majority'
-
-// app.get('/checkuser', (req,res) => {
-//     mongo.connect(url, (err, db) => {
-//       var collection = db.collection('hospital');
-//       collection.find({}).toArray((x, data) => {
-//         res.send(data);
-//       })
-//     })
-// })
-
-// app.post('/registuser', (req,res) => {
-//   mongo.connect(url, (err, db) => {
-//     var collection = db.collection('hospital');
-//     var newuser = {
-//       username: req.body.username,
-//       password: req.body.password
-//     }
-//     collection.insert(newuser, (x, data) => {
-//         res.send(data);
-//     })
-//   })
-// })
 
 app.use(cors({origin: true, credentials: true}));
 app.use(bodyParser.json());

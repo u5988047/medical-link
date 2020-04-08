@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
 import {StyleSheet, View,Text,Image, TextInput, TouchableOpacity,KeyboardType, Button,ToastAndroid} from 'react-native';
-
+import { API_IP } from 'react-native-dotenv';
 import {Actions } from 'react-native-router-flux';
 import axios from 'axios';
 
 export default class LoginForm extends Component{
     constructor(props) {
-        super(props);
+        super(props)
         this.state = {
             datamong: [],
             temparray: [],
@@ -17,7 +17,6 @@ export default class LoginForm extends Component{
             username: String,
             password: String
         };
-        
     }
     // state = {
         
@@ -72,7 +71,7 @@ export default class LoginForm extends Component{
         //   }) 
         // })
         axios({
-            url: 'http://192.168.1.10:3000/users/checkuser',
+            url: 'http://'+API_IP+':3000/users/checkuser',
             method: 'get',
             headers: {
               'Content-Type': 'application/json',
@@ -104,7 +103,7 @@ export default class LoginForm extends Component{
     //     this.state.input2 = '';
     //   };
     verifyUser() {
-            var url = 'http://192.168.1.10:3000/users/verifyuser';
+            var url = 'http://'+API_IP+':3000/users/verifyuser';
             axios.post(url, {
                 name: this.state.username,
                 pass: this.state.password
@@ -141,9 +140,7 @@ export default class LoginForm extends Component{
         // })
 
         return (
-                <View style = {styles.container}>
-                    
-                    
+                <View style = {styles.container}>                    
                     <TextInput 
                     placeholder = "Username"
                     placeholderTextColor = '#B40431'
@@ -152,9 +149,7 @@ export default class LoginForm extends Component{
                     value={this.state.username}
                     // onChangeText={(input1) => this.setState({input1})}
                     // value = {this.state.input1}    
-                    />
-                    
-
+                />                    
                     <TextInput 
                     placeholder = "Password"
                     placeholderTextColor = '#B40431'
@@ -200,7 +195,6 @@ export default class LoginForm extends Component{
                     >
                     <Text style={styles.buttonText}>ล็อคอิน</Text>
                     </TouchableOpacity> */}
-
     <Button
         title="LOGIN"
         onPress={() => 
@@ -225,27 +219,19 @@ export default class LoginForm extends Component{
                 // }
 
                 //Handle LOGIN
-
             }
         }
-    />
-                   
-                </View>
-
-               
-
+    />          
+              </View>
         );
     }
-
 }
 
 const styles = StyleSheet.create({
     container:{
       padding : 20,
-      
       justifyContent:'space-between',
       alignItems :'center'
-      
     },
    input : {
        height : 40,
@@ -253,8 +239,7 @@ const styles = StyleSheet.create({
        marginBottom : 20,
        paddingHorizontal : 10,
        width : '80%',
-       borderRadius : 25
-       
+       borderRadius : 25   
    },
    buttonContainer :{
         backgroundColor :'#B40431',
@@ -263,24 +248,16 @@ const styles = StyleSheet.create({
         marginBottom : 20,
         borderRadius : 25,
         width : 300
-
    },
    buttonText :{
        textAlign:'center',
        color : 'white',
-       fontWeight : '500'
-       
-
-      
+       fontWeight : '500' 
    },
    user :{
     padding : 20,
     flexDirection :'row',
     justifyContent:'space-between',
     alignItems :'center'
-    
   },
-   
-   
-
 });

@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {StyleSheet, View,Text,Image, TextInput, TouchableOpacity, Button,Picker} from 'react-native';
 import {Actions} from 'react-native-router-flux';
 import axios from 'axios';
+import { API_IP } from 'react-native-dotenv';
 
 export default class Tranferdata extends Component{
     toIdp = () => {
@@ -14,7 +15,6 @@ export default class Tranferdata extends Component{
             citizen_id: '',
             idp :'',
             placeholderPicker :'กรุณาเลือกidp'
-            
         };
         
     }
@@ -22,7 +22,7 @@ export default class Tranferdata extends Component{
 
     //Function call API route to sendform
     sendrequest() {
-        var url = 'http://192.168.43.168:3000/api/request';
+        var url = 'http://'+API_IP+':3000/api/request';
         var id;
         axios.post(url, {
                 id: this.state.citizen_id,
@@ -33,7 +33,7 @@ export default class Tranferdata extends Component{
           console.log(res);
         })
         .catch(function (error) {
-        //   console.log(error);
+          console.log(error);
         });
     }
 
