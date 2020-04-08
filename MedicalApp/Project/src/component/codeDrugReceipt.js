@@ -24,7 +24,7 @@ export default class WaitIDPDelete extends Component{
         //   }) 
         // })
         axios({
-            url: 'http://192.168.1.10:3000/drugReceipt/drugReceipt',
+            url: 'http://192.168.1.104/drugReceipt/drugReceipt',
             method: 'get',
             headers: {
               'Content-Type': 'application/json',
@@ -76,11 +76,11 @@ export default class WaitIDPDelete extends Component{
                     </View>
                             <View style = {{alignItems:'center'}}>
                     <TouchableOpacity style = {styles.buttonContainer} onPress = {this.drugInform.bind(this)}>
-                           <Text style = {{color : 'white'}}>กดเพื่อรับรหัส</Text>
+                           <Text style = {{color : 'white'}}>Press for Code</Text>
                         </TouchableOpacity>
                             </View>
                     <View style = {{   borderRadius : 25 ,marginBottom : 20,alignItems:'flex-end'}}>
-                        <TouchableOpacity style={styles.buttonReceipt} onPress={this.tosuccess}><Text style={styles.buttonText} >ถัดไป</Text></TouchableOpacity>
+                        <TouchableOpacity style={styles.buttonReceipt} onPress={this.tosuccess}><Text style={styles.buttonText} >Next</Text></TouchableOpacity>
                     </View>
                    
                        

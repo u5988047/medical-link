@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {StyleSheet, View,Text,Image, TouchableOpacity} from 'react-native';
-import LoginForm from './LoginForm';
+
+import RegisterForm from './RegisterForm';
 import { Actions } from 'react-native-router-flux';
 
 /*export const IMAGENAME = require('./health.png');
@@ -19,12 +20,12 @@ export default class Login extends Component{
                     </View>
 
                     <View style = {styles.formContainer}>
-                        <LoginForm/>
+                        <RegisterForm />
                     </View>
                     <View style = {styles.signupTextCont}>
-                            <Text style = {styles.signupText}>Don't have an account yet ? </Text>
-                            <TouchableOpacity onPress = {() => Actions.Register()}>
-                            <Text style = {styles.signupButton}> Signup </Text>
+                            <Text style = {styles.signupText}>Already have an account ? </Text>
+                            <TouchableOpacity onPress ={() => Actions.Login()}>
+                                <Text style = {styles.signupButton}> Sign in </Text>
                             </TouchableOpacity>
                     </View>
 

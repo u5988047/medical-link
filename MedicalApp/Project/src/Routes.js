@@ -25,6 +25,8 @@ import WaitIDPReceipt from './component/codeDrugReceipt';
 import drugInputID from './component/drugInputID';
 import codeDrugReceipt from './component/codeDrugReceipt';
 import successDrug from './component/successDrug';
+import Register from './component/Register';
+import RegisterForm from './component/RegisterForm'
 
 export default class Routes extends Component {
      
@@ -56,6 +58,8 @@ export default class Routes extends Component {
                 <Scene key = "drugInputID" component= {drugInputID} title = "drugInputID" />
                 <Scene key = "codeDrugReceipt" component = {codeDrugReceipt} title="codeDrugReceipt" />
                 <Scene key = "successDrug" component = {successDrug} title = "successDrug" />
+                <Scene key ="Register" component = {Register} title = "Register" />
+                <Scene key = "RegisterForm" component = {RegisterForm} title ="RegisterForm"/>
             </Stack>
         </Router>
         )

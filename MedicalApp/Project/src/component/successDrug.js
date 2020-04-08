@@ -33,7 +33,7 @@ export default class WaitIDPDelete extends Component{
                      
                 <View style = {{alignItems : 'flex-end'}}>
                     <TouchableOpacity style = {styles.buttonContainer}onPress={this.toresult}>
-                        <Text>กลับสู่หน้าเมนู</Text>
+                        <Text style= {{color:'white'}}>Back to Menu</Text>
                     </TouchableOpacity>
                 </View>          
                        

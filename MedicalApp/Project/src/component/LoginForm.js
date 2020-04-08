@@ -195,17 +195,17 @@ export default class LoginForm extends Component{
                     >
                     <Text style={styles.buttonText}>ล็อคอิน</Text>
                     </TouchableOpacity> */}
-    <Button
-        title="LOGIN"
+    <TouchableOpacity style = {styles.buttonContainer}
+        
         onPress={() => 
             {
                 // for(var i=0;arraymong.)
-                if(this.state.username.localeCompare('demo@mahidol.ac.th')!=0){
+                if(this.state.username.localeCompare('1')!=0){
                     ToastAndroid.show('Invalid UserName',ToastAndroid.SHORT);
                     console.log(this.state.username)
                     return;
                 }
-                if(this.state.password.localeCompare('1234')!=0){
+                if(this.state.password.localeCompare('1')!=0){
                     ToastAndroid.show('Invalid Password',ToastAndroid.SHORT);
                     return;
                 }
@@ -213,15 +213,12 @@ export default class LoginForm extends Component{
                     Actions.OTP()
                 }
 
-                // if(this.state.password.localeCompare('demo')!=0){
-                //     ToastAndroid.show('Invalid Password',ToastAndroid.SHORT);
-                //     return;
-                // }
+                
 
-                //Handle LOGIN
             }
         }
-    />          
+       
+    ><Text style={styles.buttonText}>Login</Text></TouchableOpacity>        
               </View>
         );
     }

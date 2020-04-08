@@ -41,7 +41,7 @@ export default class drugReceipt extends Component{
         //   }) 
         // })
         axios({
-            url: 'http://'+API_IP+':3000/drugReceipt/drugReceipt',
+            url: 'http://192.168.1.104:3000/drugReceipt/drugReceipt',
             method: 'get',
             headers: {
               'Content-Type': 'application/json',
@@ -97,7 +97,7 @@ export default class drugReceipt extends Component{
         return (
                 <View style = {styles.container}>
                     
-                    <Text style = {styles.head}>ข้อมูลใบรับยา</Text>
+                    <Text style = {styles.head}>Drug Receipt Information</Text>
 
                     <View>
 
@@ -131,13 +131,13 @@ export default class drugReceipt extends Component{
 
                     
                         <TouchableOpacity style = {styles.buttonContainer} onPress = {this.drugInform.bind(this)}>
-                           <Text style = {{color : 'white'}}>กดเพื่อดูข้อมูล</Text>
+                           <Text style = {{color : 'white'}}>Press for Information</Text>
                         </TouchableOpacity>
                     </View>
                    
                    <View style = {{alignItems :'flex-end'}}>
                        <TouchableOpacity style = {styles.buttonReceipt} onPress ={this.toInput}>
-                           <Text style = {{color:'white'}}>ยืนยันการรับยา</Text>
+                           <Text style = {{color:'white'}}>Next</Text>
                        </TouchableOpacity>
                    </View>
                     
@@ -177,7 +177,8 @@ const styles = StyleSheet.create({
         backgroundColor :'#B40431',
         paddingVertical : 15,
         height :50,
-        width : 100,
+        width : 150,
+        marginTop :20,
         marginBottom : 20,
         borderRadius : 25,
         alignItems :'center'
