@@ -12,7 +12,7 @@ export default class drugReceipt extends Component{
         return (
                 <View style = {styles.container}>
                     
-                    <Text style = {styles.head}>ใบรับยา</Text>
+                    <Text style = {styles.head}>Drug Receipt</Text>
 
                     
                     <TouchableOpacity style = {{alignItems : 'center'}}

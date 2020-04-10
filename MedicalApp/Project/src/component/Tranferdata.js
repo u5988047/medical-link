@@ -14,7 +14,7 @@ export default class Tranferdata extends Component{
         this.state = {
             citizen_id: '',
             idp :'',
-            placeholderPicker :'กรุณาเลือกidp'
+            placeholderPicker :'Please Select IDP'
         };
         
     }
@@ -46,10 +46,10 @@ export default class Tranferdata extends Component{
 
         return (
                 <View style = {styles.container}>
-                     <Text style = {styles.head}>Please enter your information</Text>  
+                     <Text style = {styles.head}>Please enter your information (Transfer)</Text>  
 
                      <View style = {styles.inputcontainer}>
-                                <Text style ={{marginTop:10}}>หมายเลขบัตรประชาชน</Text>   
+                                <Text style ={{marginTop:10,marginLeft :10,fontSize :16}}>Citizen ID</Text>   
                                          <TextInput 
                                              placeholder = "11000505245256"
                                              placeholderTextColor = 'gray'
@@ -105,12 +105,12 @@ export default class Tranferdata extends Component{
                     
                     <View style = {{paddingVertical:20}}>
                     <Button
-                            title="ส่งข้อมูลยืนยัน"
+                            title="Send confirmation"
                             onPress={this.sendrequest.bind(this)}
                             style = {{paddingBottom: 20}}
                         />
                     </View>
-                       <TouchableOpacity style={styles.buttonContainer} onPress={this.toIdp}><Text >ถัดไป</Text></TouchableOpacity>
+                       <TouchableOpacity style={styles.buttonContainer} onPress={this.toIdp}><Text style = {{ color:"white"}}>Next</Text></TouchableOpacity>
 
 
                 </View>
@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
             alignItems :'center',
             textAlign:'center',
             color: '#FFFF',
-            fontSize:20
+            fontSize:18
         },
         
         inputcontainer :{

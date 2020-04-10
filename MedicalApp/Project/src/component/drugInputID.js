@@ -11,7 +11,7 @@ export default class drugInputID extends Component{
         return (
                 <View style = {styles.container}>
                     
-                    <Text style = {styles.head}>โปรดใส่ไอดีของใบรับยาที่ต้องการ</Text>
+                    <Text style = {styles.head}>Please input Drug Receipt ID</Text>
                     {/* <View style ={styles.container}>
                         <Text>โปรดใส่ไอดีของใบรับยาที่ต้องการ</Text>
                     </View> */}
@@ -21,7 +21,7 @@ export default class drugInputID extends Component{
                         placeholderTextColor = 'white'                   
                         style = {styles.input} />
                     <TouchableOpacity onPress = {this.tocodeDrug} style = {styles.buttonContainer}>
-                    <Text style={styles.buttonText}>ถัดไป</Text>
+                    <Text style={styles.buttonText}>Next</Text>
                     </TouchableOpacity>
                     </View>
                 </View>

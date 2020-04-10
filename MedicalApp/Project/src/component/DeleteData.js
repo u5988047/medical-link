@@ -1,10 +1,39 @@
 import React, {Component} from 'react';
-import {StyleSheet, View,Text,Image, TextInput, TouchableOpacity} from 'react-native';
+import {StyleSheet, View,Text,Image, TextInput, TouchableOpacity,Picker,Button} from 'react-native';
 import {Actions } from 'react-native-router-flux';
 
 export default class Delete extends Component{
-    toIdp = () => {
-        Actions.IdpDelete()
+    
+    towaitidp = () => {
+        Actions.WaitIDPDelete()
+    }
+    constructor(props) {
+        super(props);
+        this.state = {
+            citizen_id: '',
+            idp :'',
+            placeholderPicker :'Please Select IDP'
+            
+        };
+        
+    }
+
+
+    //Function call API route to sendform
+    sendrequest() {
+        var url = 'http://192.168.43.168:3000/api/request';
+        var id;
+        axios.post(url, {
+                id: this.state.citizen_id,
+                // idp: "idp2",
+                idp : this.state.idp
+        })
+        .then(function (res) {
+          console.log(res);
+        })
+        .catch(function (error) {
+        //   console.log(error);
+        });
     }
     render() {
 
@@ -13,24 +42,60 @@ export default class Delete extends Component{
                      <Text style = {styles.head}>Please enter your information (Delete)</Text>  
 
                      <View style = {styles.inputcontainer}>
-                                <Text style ={{marginTop:10}}>หมายเลขบัตรประชาชน</Text>   
+                                <Text style ={{marginTop:10, marginLeft:10,fontSize:16}}>Citizen ID</Text>   
                                          <TextInput 
                                              placeholder = "11000505245256"
                                              placeholderTextColor = 'gray'
                                              keyboardType ='number-pad'
-                                             style = {styles.input} />
+                                             style = {styles.input}
+                                             onChangeText={(value) => this.setState({citizen_id: value})}
+                                             value={this.state.citizen_id}
+                                        />
+                       
                        </View>
-                    <View style = {{alignItems : 'center'}}>
-                       <TouchableOpacity onPress={this.toIdp}><Text >ถัดไป</Text></TouchableOpacity>
+
+                       <View style = {styles.inputcontainer}> 
+                     <Picker
+                     style = {{width:'100%'}}
+                     selectedValue = {this.state.idp}
+                     onValueChange ={(value) => this.setState({idp:value, placeholderPicker:value})}
+                     >
+                        <Picker.Item label ={this.state.placeholderPicker} value="" />
+                        <Picker.Item label ="Hospital1" value="idp1"/>
+                        <Picker.Item label ="Hospital2" value="idp2" />
+
+
+                     </Picker>
+                     
+                     </View>
+
+                     <View style = {{paddingVertical:20}}>
+                    <Button
+                            title="Send confirmation"
+                            onPress={this.sendrequest.bind(this)}
+                            style = {{paddingBottom: 20}}
+                        />
                     </View>
+                       <TouchableOpacity style={styles.buttonContainer} onPress={this.towaitidp}><Text style = {{ color:"white"}}>Next</Text></TouchableOpacity>
+                     
+                       
+                    
+                    
+                   
                 </View>
+
+               
+
         );
     }
+
 }
 const styles = StyleSheet.create({
     container:{
         backgroundColor : 'white',
-        flex : 1
+        flex : 1,
+        alignItems: 'center',
+        paddingVertical: 20
               },
         option :{
             flexDirection :'row',
@@ -50,7 +115,7 @@ const styles = StyleSheet.create({
             alignItems :'center',
             textAlign:'center',
             color: '#FFFF',
-            fontSize:20
+            fontSize:18
         },
         
         inputcontainer :{
@@ -58,6 +123,7 @@ const styles = StyleSheet.create({
             flexDirection : 'row',
             borderBottomColor: 'gray',
             borderBottomWidth: 1,
+            paddingBottom :10
             
            /* justifyContent : 'center',
             alignItems:'center',
@@ -75,6 +141,16 @@ const styles = StyleSheet.create({
             
             flex : 1
             
+        },
+        buttonContainer :{
+            backgroundColor: '#B40431',
+            paddingVertical:5,
+            borderRadius : 25,
+            width : 200,
+            alignItems : 'center',
+            justifyContent :'center',
+            textAlign : 'center',
+            alignItems: 'center'
         },
 
 });

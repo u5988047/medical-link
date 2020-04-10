@@ -14,6 +14,7 @@ export default class Menu extends Component{
 
         return (
                 <View style = {styles.container}> 
+                    
                     <TouchableOpacity 
                     style={styles.backgroundColor}
                     onPress={this.toAuthen}>
@@ -24,14 +25,15 @@ export default class Menu extends Component{
                         height : 200,
                         borderRadius : 10,
                         margin :10,
-                        alignItems : "center"
+                        alignItems : "center",
+                        justifyContent :'center'
                         
                         }}>
                             <Image style = {{ width : 90 , height : 100}} 
                         source = { require('../images/Card.png')} />
                         <Text style = {{
                             textAlign :'center',                           
-                        }}>Medical Data(ข้อมูลการแพทย์)</Text>
+                        }}>Medical Data Management</Text>
 
                     </View>
                     </TouchableOpacity>
@@ -44,13 +46,14 @@ export default class Menu extends Component{
                         height : 200,
                         borderRadius : 10,
                         margin :10,
-                        alignItems : "center"                                                
+                        alignItems : "center",
+                        justifyContent : "center"                                           
                         }}>
                             <Image style = {{ width : 90 , height : 100, }} 
                         source = { require('../images/Receipt.png')} />
                         <Text style = {{
                             textAlign :'center',        
-                        }}> Drug receipt (ใบรับยา)</Text>
+                        }}> Drug receipt</Text>
 
                     </View>
                     </TouchableOpacity>
