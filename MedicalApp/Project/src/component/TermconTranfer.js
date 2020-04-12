@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {StyleSheet, View,Text,Image, TextInput, TouchableOpacity} from 'react-native';
-import { Actions } from 'react-native-router-flux';
+import {Actions } from 'react-native-router-flux';
 import { CheckBox } from 'react-native';
 
 export default class TermconTranfer extends Component{
@@ -23,8 +23,20 @@ export default class TermconTranfer extends Component{
 
         return (
                 <View style = {styles.container}>
-                     <Text style = {styles.head}>Terms and Conditions</Text>
-                        <Text style = {{paddingHorizontal:20, paddingVertical:20}}>แอพพลิเคชั่นสงวนสิทธิ์ในการจัดให้มีแอพพลิเคชั่นนี้เพื่ออำนวยความสะดวกในการติดต่อสื่อสารระหว่างท่านกับแอพพลิเคชั่นที่ต้องการทราบข้อมูลข่าวสาร ความเคลื่อนไหวต่างๆ ในการดำเนินธุรกิจของแอพพลิเคชั่น ทั้งนี้ ข้อมูลและสาระสำคัญที่ปรากฏในหน้าจอต่างๆ ตลอดจนข้อกำหนด เงื่อนไข และรายละเอียดต่างๆ ความถูกต้องครบถ้วนสมบูรณ์ ความเป็นปัจจุบัน และความต่อเนื่องของข้อมูลในเว็บไซต์นั้น อาจเปลี่ยนแปลงได้ตามดุลยพินิจของแอพพลิเคชั่น แอพพลิเคชั่นขอสงวนสิทธิ์ในคัดเลือกผู้ประสงค์ใช้บริการ การระงับหรือจำกัดขอบเขต รวมถึงการปฏิเสธสิทธิในการใช้บริการทางเว็บไซต์ทั้งหมดหรือบางส่วนแก่ผู้ใดก็ได้ตามเกณฑ์ของแอพพลิเคชั่น โดยไม่ต้องทำการแจ้งให้ท่านทราบแต่อย่างใด และไม่ถือว่าเป็นการกระทำให้ท่านหรือบุคคลใดเกิดความเสียหายใดๆ ไม่ว่าทางตรงหรือทางอ้อม และจะไม่ยกเว้นเงื่อนไขการให้บริการข้อมูลนี้ไม่ว่าส่วนใดให้แก่ผู้ใดทั้งสิ้น เว้นแต่จะทำเป็นลายลักษณ์อักษร และลงนามโดยผู้มีอำนาจลงนามของแอพพลิเคชั่น ทั้งนี้ หากท่านไม่สามารถดำเนินการได้ตามข้อตกลงและเงื่อนไขการใช้บริการ กรุณาหยุดการเข้าเว็บไซต์โดยทันที</Text>  
+                     <Text style = {styles.head}>Terms and Conditions (Transfer Information)</Text>
+                        <Text style = {{paddingHorizontal:20, paddingVertical:20}}>
+                        <Text>                  </Text>Ipsum a arcu cursus vitae congue mauris rhoncus aenean vel elit scelerisque mauris pellentesque pulvinar pellentesque habitant 
+                        morbi tristique senectus et netus et malesuada fames ac turpis egestas maecenas pharetra convallis posuere morbi leo urna molestie 
+                        at elementum eu facilisis sed odio morbi quis commodo odio aenean sed adipiscing diam
+                        Id donec ultrices tincidunt arcu non sodales neque sodales ut etiam sit amet nisl purus in mollis nunc sed id semper risus in hendrerit
+                         gravida rutrum quisque non tellus orci ac auctor augue mauris augue neque gravida in fermentum et sollicitudin ac orci phasellus egestas 
+                         tellus rutrum tellus pellentesque eu.
+                         {'\n'}
+                         <Text>                  </Text>In eu mi bibendum neque egestas congue quisque egestas diam in arcu cursus euismod quis viverra nibh cras pulvinar mattis nunc sed blandit 
+                         libero volutpat sed cras ornare arcu dui vivamus arcu felis bibendum ut tristique et egestas quis ipsum suspendisse ultrices gravida dictum 
+                         fusce ut placerat orci nulla pellentesq Sit amet est placerat in egestas erat imperdiet sed euismod nisi porta lorem mollis aliquam ut porttitor leo a diam sollicitudin tempor id eu nisl 
+                        nunc mi ipsum faucibus vitae aliquet nec ullamcorper sit amet risus nullam eget felis eget nunc lobortis mattis aliquam faucibus purus in massa tempor nec.
+                        </Text>  
                         {/* <View style = {styles.center}>
                             <CheckBox value={this.state.check} onChange={() => this.checkBoxTest()} />  
                         </View> */}
@@ -35,12 +47,12 @@ export default class TermconTranfer extends Component{
                           value={this.state.checked}
                           onValueChange={() => this.setState({ checked: !this.state.checked })}
                         />
-                        <Text style={{marginTop: 5}}>ยอมรับข้อตกลงและเงื่อนไข</Text>
+                        <Text style={{marginTop: 5}}>I accept the Terms and Conditions</Text>
                       </View>
                     </View>
                         
                      <View style = {styles.center}>
-                       <TouchableOpacity style={styles.buttonContainer} onPress={this.toTranferdata}><Text style={{color :'white'}} >ถัดไป</Text></TouchableOpacity>
+                       <TouchableOpacity style={styles.buttonContainer} onPress={this.toTranferdata}><Text style={{color :'white'}} >Next</Text></TouchableOpacity>
                     </View>
                 </View>
 
@@ -63,7 +75,7 @@ const styles = StyleSheet.create({
             alignItems :'center',
             textAlign:'center',
             color: '#FFFF',
-            fontSize:20
+            fontSize:17
         },
         
         inputcontainer :{

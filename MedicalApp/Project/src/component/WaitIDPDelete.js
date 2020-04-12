@@ -21,7 +21,7 @@ export default class WaitIDPDelete extends Component{
                         
        
                     <View style = {{   borderRadius : 25,margin :50 ,marginBottom : 20}}>
-                        <TouchableOpacity style={styles.buttonContainer} onPress={this.toresult}><Text style={styles.buttonText} >ถัดไป</Text></TouchableOpacity>
+                        <TouchableOpacity style={styles.buttonContainer} onPress={this.toresult}><Text style={styles.buttonText} >Next</Text></TouchableOpacity>
                     </View>
                    
                        

@@ -17,20 +17,21 @@ export default class Authen extends Component{
     toTerm =() =>{
         Actions.TermconTranfer()
     }
+    toTermDelete =() =>{
+        Actions.TermconDelete()
+    }
     render() {
 
         return (
                 <View style = {styles.container}>
-                    <Text style = {styles.head}>Request </Text>
+                    <Text style = {styles.head}>Medical Data Management</Text>
                     <View style = {{   borderRadius : 10,margin :50}}>
-                        <TouchableOpacity style={styles.buttonContainer} onPress={this.toTerm}><Text style={styles.buttonText} >Tranfer sensitive data</Text></TouchableOpacity>
+                        <TouchableOpacity style={styles.buttonContainer} onPress={this.toTerm}><Text style={styles.buttonText} >Tranfer Sensitive data</Text></TouchableOpacity>
                     </View>
                     <View style = {{   borderRadius : 10,margin :50}}>
-                        <TouchableOpacity style={styles.buttonContainer} onPress={this.toservice}><Text style={styles.buttonText}>Service request</Text></TouchableOpacity> 
+                        <TouchableOpacity style={styles.buttonContainer} onPress={this.toTermDelete}><Text style={styles.buttonText}>Delete Sensitive Data</Text></TouchableOpacity> 
                     </View>
-                    <View style = {{   borderRadius : 10,margin :50}}>
-                        <TouchableOpacity style={styles.buttonContainer} onPress={this.tohistory}><Text style={styles.buttonText}>History</Text></TouchableOpacity> 
-                    </View>             
+                                
                 </View>
 
               );

@@ -24,11 +24,31 @@ export default class TermconDelete extends Component{
         return (
                 <View style = {styles.container}>
                      <Text style = {styles.head}>Terms and Conditions(Delete Information)</Text>  
-                        <View style = {styles.center}>
-                            <CheckBox value={this.state.check} onChange={() => this.checkBoxTest()} />
-                            
-                            
-                        </View>
+                     <Text style = {{paddingHorizontal:20, paddingVertical:20}}>
+                        <Text>                  </Text>Ipsum a arcu cursus vitae congue mauris rhoncus aenean vel elit scelerisque mauris pellentesque pulvinar pellentesque habitant 
+                        morbi tristique senectus et netus et malesuada fames ac turpis egestas maecenas pharetra convallis posuere morbi leo urna molestie 
+                        at elementum eu facilisis sed odio morbi quis commodo odio aenean sed adipiscing diam
+                        Id donec ultrices tincidunt arcu non sodales neque sodales ut etiam sit amet nisl purus in mollis nunc sed id semper risus in hendrerit
+                         gravida rutrum quisque non tellus orci ac auctor augue mauris augue neque gravida in fermentum et sollicitudin ac orci phasellus egestas 
+                         tellus rutrum tellus pellentesque eu.
+                         {'\n'}
+                         <Text>                  </Text>In eu mi bibendum neque egestas congue quisque egestas diam in arcu cursus euismod quis viverra nibh cras pulvinar mattis nunc sed blandit 
+                         libero volutpat sed cras ornare arcu dui vivamus arcu felis bibendum ut tristique et egestas quis ipsum suspendisse ultrices gravida dictum 
+                         fusce ut placerat orci nulla pellentesq Sit amet est placerat in egestas erat imperdiet sed euismod nisi porta lorem mollis aliquam ut porttitor leo a diam sollicitudin tempor id eu nisl 
+                        nunc mi ipsum faucibus vitae aliquet nec ullamcorper sit amet risus nullam eget felis eget nunc lobortis mattis aliquam faucibus purus in massa tempor nec.
+                        </Text> 
+                        
+
+                        <View style={{ flexDirection: 'column'}}>
+                      <View style={{ flexDirection: 'row' , paddingLeft: 12}}>
+                        <CheckBox
+                          style = {{paddingBottom: 10}}
+                          value={this.state.checked}
+                          onValueChange={() => this.setState({ checked: !this.state.checked })}
+                        />
+                        <Text style={{marginTop: 5}}>I accept the Terms and Conditions</Text>
+                      </View>
+                    </View>
 
 
                      <View style = {styles.center}>
@@ -55,7 +75,8 @@ const styles = StyleSheet.create({
             alignItems :'center',
             textAlign:'center',
             color: '#FFFF',
-            fontSize:20
+            fontSize:18,
+            justifyContent :'center'
         },
         
         inputcontainer :{

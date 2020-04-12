@@ -97,37 +97,10 @@ export default class Tranferdata extends Component{
                      </Picker>
                      
                      </View>
-                       {/* <View style = {styles.inputcontainer}>
-                                <Text style = {styles.inputheader}>ชื่อ-นามสกุล</Text>   
-                                         <TextInput 
-                                             placeholder = "สมิธ ปาน"
-                                             placeholderTextColor = 'gray'
-                                             
-                                             style = {styles.input}/>
-                       
-                       </View>
-                       <View style = {styles.inputcontainer}>
-                                <Text style = {styles.inputheader}>เบอร์มือถือ</Text>   
-                                         <TextInput 
-                                             placeholder = "0812345678"
-                                             placeholderTextColor = 'gray'
-                                             
-                                             style = {styles.input}/>
-                       
-                       </View> */}
-
-                    {/*<View style = {styles.option}>
-                        <Text style = {styles.choose}>โรงพยาบาลที่จะเข้ารับการรักษา</Text>
-                       <ModalDropdown options={['โรงพยาบาลศิริราช', 'โรงพยาบาลพญาไท3']}/>
-                    </View>
-                    <View style = {styles.option}>
-                        <Text style = {styles.choose}>โรงพยาบาลที่เข้ารักษาก่อนหน้า</Text>
-                       <ModalDropdown options={['โรงพยาบาลศิริราช', 'โรงพยาบาลพญาไท3']}/>
-        </View>*/}
                     
                     <View style = {{paddingVertical:20}}>
                     <Button
-                            title="ส่งข้อมูลยืนยัน"
+                            title="Send confirmation"
                             onPress={this.sendrequest.bind(this)}
                             style = {{paddingBottom: 20}}
                         />
@@ -168,7 +141,7 @@ const styles = StyleSheet.create({
             alignItems :'center',
             textAlign:'center',
             color: '#FFFF',
-            fontSize:20
+            fontSize:18
         },
         
         inputcontainer :{
