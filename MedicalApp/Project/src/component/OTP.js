@@ -14,7 +14,7 @@ export default class OTP extends Component{
 
 
                     <TouchableOpacity onPress = {() => Actions.Menu()} style = {styles.buttonContainer}>
-                    <Text style={styles.buttonText}>ถัดไป</Text>
+                    <Text style={styles.buttonText}>Next</Text>
                     </TouchableOpacity>
                 </View>
 

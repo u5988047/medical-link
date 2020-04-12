@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {StyleSheet, View,Text,Image, TextInput, TouchableOpacity} from 'react-native';
 import {Actions } from 'react-native-router-flux';
 import axios from 'axios';
+import { API_IP } from 'react-native-dotenv';
 export default class WaitIDPDelete extends Component{
 
     constructor() {
@@ -24,7 +25,7 @@ export default class WaitIDPDelete extends Component{
         //   }) 
         // })
         axios({
-            url: 'http://192.168.1.104/drugReceipt/drugReceipt',
+            url: 'http://'+API_IP+':3000/drugReceipt/drugReceipt',
             method: 'get',
             headers: {
               'Content-Type': 'application/json',

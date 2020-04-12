@@ -169,6 +169,7 @@ router.post('/api/account/signin', (req, res, next) => {
       }
 
       return res.send({
+        firstName: user.firstName,
         success: true,
         message: 'Valid signin',
         token: doc._id
@@ -246,7 +247,7 @@ router.post("/totp-generate", (req, res, next) => {
           secret: req.body.secret,
           encoding: "base32"
       }),
-      "remaining": (80 - Math.floor((new Date().getTime() / 1000.0 % 30)))
+      "remaining": (5000 - Math.floor((new Date().getTime() / 1000.0 % 30)))
   });
 });
 
@@ -261,5 +262,58 @@ router.post("/totp-validate", (req, res, next) => {
   })
 });
 
+router.post("/validatecid", (req,res,next) => {
+  const { body } = req;
+  let {
+    cid,
+    email
+  } = body;
+  if(!cid) {
+    return res.send({
+      success: false,
+      message: 'Citizen ID cannot be blank.'
+    });
+  }
+  if(!email) {
+    return res.send({
+      success: false,
+      message: 'Email cannot be blank.'
+    });
+  }
+
+  email = email.toLowerCase();
+
+  User.find({
+    email: email
+  },(err, users)=> {
+    if(err) {
+      return res.send({
+        success: false,
+        message: 'Error: server error'
+      });
+    }
+    if(users.length != 1) {
+      return res.send({
+        success: false,
+        message: 'Error: Invalid'
+      });
+    }
+
+    const user = users[0];
+    if(user.validcitizenID(cid)) {
+      return res.send({
+        success: true,
+        message: 'Validated'
+      });
+    }
+    else
+    {
+      return res.send({
+        success: false,
+        message: 'invalid'
+      });
+    }
+  })
+})
 
 module.exports = router;

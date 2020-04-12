@@ -1,154 +1,52 @@
 import React, {Component} from 'react';
 import {StyleSheet, View,Text,Image, TextInput, TouchableOpacity,KeyboardType, Button,ToastAndroid} from 'react-native';
 import { API_IP } from 'react-native-dotenv';
-import {Actions } from 'react-native-router-flux';
+import { Actions } from 'react-native-router-flux';
 import axios from 'axios';
+import AsyncStorage from '@react-native-community/async-storage';
 
 export default class LoginForm extends Component{
     constructor(props) {
         super(props)
         this.state = {
-            datamong: [],
-            temparray: [],
-            input1: String,
-            input2: String,
             error: false,
             loginSucess: false,
-            username: String,
+            email: String,
             password: String
         };
     }
-    // state = {
-        
 
-    //     username: 'park',
-    //     password: '1234'
-    // };
-    
-    // handleChange= (event = {}) => {
-    //     const name = event.target && event.target.name;
-    //     const value = event.target && event.target.value;
-      
-    //     this.setState([name], value);
-
-    handleOnChangeUserName = (e) => {
-        this.setState({
-          user_name: e.target.value,
-        });
-      };   
-
-    handleOnChangePassword = (e) => {
-      this.setState({
-        password: e.target.value,
-      });
-    };
-
-    onSubmit = async (e) => {
-        const data = {
-          user_name: this.state.username,
+    sendLogin = async()=> {
+      var url = 'http://'+API_IP+':3000/api/account/signin';
+        axios.post(url, {
           password: this.state.password,
-        };
-        const loginResult = await LoginService(data);
-        if (loginResult !== 200) {
-          this.setState({
-            error: true,
-            loginSuccess: false,
-          });
-        } else
-          this.setState({
-            loginSuccess: true,
-            error: false,
-          });
-      };
-
-    userInform(){
-        // var url = 'http://localhost:3000/users/checkuser';
-        // axios.get(url)
-        // .then((Data) => {
-        //   console.log(Data.data);
-        //   this.setState({
-        //     datamong: Data.data,
-        //   }) 
-        // })
-        axios({
-            url: 'http://'+API_IP+':3000/users/checkuser',
-            method: 'get',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          }).then((Data) => {
-              console.log(JSON.stringify(Data.data));
-              this.setState({
-                datamong: Data.data,
-              }) 
-            }).catch(e => {
-                console.log(e);
-              });
-              
-        };
-
-    // verifyUser() {
-    //     var url = 'http://10.0.75.1:3000/users/verifyuser';
-    //     axios.post(url, {
-    //       name: this.state.input1,
-    //       pass: this.state.input2
-    //     })
-    //     .then(function (response) {
-    //       console.log(response);
-    //     })
-    //     .catch(function (error) {
-    //       console.log(error);
-    //     });
-    //     this.state.input1 = '';
-    //     this.state.input2 = '';
-    //   };
-    verifyUser() {
-            var url = 'http://'+API_IP+':3000/users/verifyuser';
-            axios.post(url, {
-                name: this.state.username,
-                pass: this.state.password
-            })
-            .then(function (response) {
-              console.log(response);
-            })
-            .catch(function (error) {
-              console.log(error);
-            });
-        };
-
-    renderItems() {
-        var temparray = this.state.datamong.map(item => (
-        <View key={item._id}>
-            <Text style={{fontSize:20,fontWeight:'bold'}}>{item.username}</Text>
-        </View>
-        ));
-    return <Text>{item.username}</Text>;
+          email: this.state.email
+        }).then(async (res) => {
+          console.log(JSON.stringify(res))
+          console.log(res.data.success)
+          if(res.data.success == true){
+            try {
+              await AsyncStorage.setItem('token', res.data.token)
+            } catch(e) {
+              console.log(e)
+            }
+            return (Actions.OTP(),ToastAndroid.show('Hello '+res.data.firstName+' please input OTP',ToastAndroid.SHORT))
+          }
+          else{
+            return (ToastAndroid.show('Invalid username or password',ToastAndroid.SHORT))
+          }
+        })
     }
-   /* OTP(){
-        
-        Action.OTP(PARAMS);
-    }*/
+   
     render() {
-
-        // const dataMongo = this.state.datamong.find(item => {
-        //     // var arraymong = ['Username: ',item.username,', Password: ',item.password].join(' ');
-        //     // Object.entries(this.state.temparray) = item.map(([key, value]) => {
-        //     //     item.username;
-        //     // })
-        //     // console.log(temparrays);
-        //     // return <Text style={{fontSize:20,fontWeight:'bold'}}>{this.state.input1} {this.state.input2}</Text>;
-        // })
-
         return (
                 <View style = {styles.container}>                    
                     <TextInput 
-                    placeholder = "Username"
+                    placeholder = "Email"
                     placeholderTextColor = '#B40431'
                     style = {styles.input}
-                    onChangeText={(value) => this.setState({username: value})}
-                    value={this.state.username}
-                    // onChangeText={(input1) => this.setState({input1})}
-                    // value = {this.state.input1}    
+                    onChangeText={(value) => this.setState({email: value})}
+                    value={this.state.email} 
                 />                    
                     <TextInput 
                     placeholder = "Password"
@@ -157,66 +55,11 @@ export default class LoginForm extends Component{
                     style = {styles.input}
                     onChangeText={(value) => this.setState({password: value})}
                     value={this.state.password} 
-                    // onChangeText={(input2) => this.setState({input2})}
-                    // value = {this.state.input2} 
                     />
 
-                    {/* <View style={{flexDirection:'column',alignItems:'center'}}> */}
-                        {/* {dataMongo} */}
-                        {/* <Text style={{fontSize:20,fontWeight:'bold'}}>{this.state.input1} {this.state.input2}</Text> */}
-                    {/* </View> */}
                     
-                    {/* <TouchableOpacity onPress = {() => 
-                      {
-                        var url = 'http://192.168.43.168:3000/users/verifyuser';
-                        var status;
-                          axios.post(url, {
-                              name: this.state.username,
-                              pass: this.state.password
-                          })
-                          .then(function (response) {
-                            console.log(response);
-                            status = response.status;
-                            console.log(status);
-                          })
-                          .catch(function (error) {
-                            console.log(error);
-                          });
-
-                        if(this.status == "200") {
-                            Actions.OTP()
-                          }
-                          else{
-                            ToastAndroid.show('Invalid UserName or Password',ToastAndroid.SHORT);
-                          }
-                      } 
-                    }
-                    style = {styles.buttonContainer}                  
-                    >
-                    <Text style={styles.buttonText}>ล็อคอิน</Text>
-                    </TouchableOpacity> */}
     <TouchableOpacity style = {styles.buttonContainer}
-        
-        onPress={() => 
-            {
-                // for(var i=0;arraymong.)
-                if(this.state.username.localeCompare('1')!=0){
-                    ToastAndroid.show('Invalid UserName',ToastAndroid.SHORT);
-                    console.log(this.state.username)
-                    return;
-                }
-                if(this.state.password.localeCompare('1')!=0){
-                    ToastAndroid.show('Invalid Password',ToastAndroid.SHORT);
-                    return;
-                }
-                else{
-                    Actions.OTP()
-                }
-
-                
-
-            }
-        }
+        onPress={this.sendLogin.bind(this)}
        
     ><Text style={styles.buttonText}>Login</Text></TouchableOpacity>        
               </View>
@@ -249,7 +92,7 @@ const styles = StyleSheet.create({
    buttonText :{
        textAlign:'center',
        color : 'white',
-       fontWeight : '500' 
+       fontWeight : '500'
    },
    user :{
     padding : 20,

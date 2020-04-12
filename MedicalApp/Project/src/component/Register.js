@@ -6,7 +6,7 @@ import { Actions } from 'react-native-router-flux';
 
 /*export const IMAGENAME = require('./health.png');
 import { IMAGENAME } from '../images';*/
-export default class Login extends Component{
+export default class Register extends Component{
     render() {
 
         return (

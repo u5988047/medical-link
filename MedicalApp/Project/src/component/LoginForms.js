@@ -37,7 +37,7 @@ export default class LoginForm extends Component{
                     onChangeText={(value) => this.setState({password: value})}
                     value={this.state.password} 
                     />
-    <View style={{ flexDirection: 'row', marginBottom:10, }}>
+    <View style={{ flexDirection: 'row' }}>
     <Button
         title="LOGIN"
         onPress={() => 
@@ -55,13 +55,6 @@ export default class LoginForm extends Component{
                 else{
                     Actions.OTP()
                 }
-
-                // if(this.state.password.localeCompare('demo')!=0){
-                //     ToastAndroid.show('Invalid Password',ToastAndroid.SHORT);
-                //     return;
-                // }
-
-                //Handle LOGIN
             }
         }
     />

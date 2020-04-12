@@ -28,7 +28,7 @@ router.post('/request', function(req, res) {
         var reference_id = `ref_${generateRefId(10)}${generateRefId(10)}`
         axios({
             method: 'post',
-            url: 'http://'+process.env.SERVER_URL+':8200/rp/requests/citizen_id/${req.body.id}',
+            url: 'http://'+process.env.SERVER_URL+':8200/rp/requests/citizen_id/'+req.body.id,
             headers: {
               'Content-Type': 'application/json',
             },

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {StyleSheet, View,Text,Image, TextInput, TouchableOpacity, Button,Picker} from 'react-native';
+import {StyleSheet, View,Text,Image, TextInput, TouchableOpacity, Button,Picker,ToastAndroid} from 'react-native';
 import {Actions} from 'react-native-router-flux';
 import axios from 'axios';
 import { API_IP } from 'react-native-dotenv';
@@ -12,9 +12,10 @@ export default class Tranferdata extends Component{
     constructor(props) {
         super(props);
         this.state = {
+            email: '',
             citizen_id: '',
             idp :'',
-            placeholderPicker :'กรุณาเลือกidp'
+            placeholderPicker :'Please choose IdP'
         };
         
     }
@@ -22,19 +23,30 @@ export default class Tranferdata extends Component{
 
     //Function call API route to sendform
     sendrequest() {
-        var url = 'http://'+API_IP+':3000/api/request';
-        var id;
-        axios.post(url, {
-                id: this.state.citizen_id,
-                // idp: "idp2",
-                idp : this.state.idp
+        var validateurl = 'http://'+API_IP+':3000/validatecid';
+        var requrl = 'http://'+API_IP+':3000/api/request';
+        axios.post(validateurl, {
+            email: this.state.email,
+            cid: this.state.citizen_id
+        }).then(res => {
+            if(res.data.success == true) {
+                axios.post(requrl, {
+                    id: this.state.citizen_id,
+                    idp : this.state.idp
+                })
+                .then(function (res) {
+                  console.log(res);
+                })
+                .catch(function (error) {
+                  console.log(error);
+                });
+            }
+            else {
+                console.log(res.data.message)
+                return (ToastAndroid.show('Incorrect Information',ToastAndroid.SHORT))
+            }
         })
-        .then(function (res) {
-          console.log(res);
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+
     }
 
 
@@ -47,9 +59,19 @@ export default class Tranferdata extends Component{
         return (
                 <View style = {styles.container}>
                      <Text style = {styles.head}>Please enter your information</Text>  
-
                      <View style = {styles.inputcontainer}>
-                                <Text style ={{marginTop:10}}>หมายเลขบัตรประชาชน</Text>   
+                                <Text style ={{marginTop:10, marginLeft: 10}}>Email</Text>   
+                                         <TextInput 
+                                             placeholder = "test@example.com"
+                                             placeholderTextColor = 'gray'
+                                             style = {styles.input}
+                                             onChangeText={(value) => this.setState({email: value})}
+                                             value={this.state.email}
+                                        />
+                       
+                       </View>
+                     <View style = {styles.inputcontainer}>
+                                <Text style ={{marginTop:10, marginLeft: 10}}>Citizen ID</Text>   
                                          <TextInput 
                                              placeholder = "11000505245256"
                                              placeholderTextColor = 'gray'
@@ -110,7 +132,7 @@ export default class Tranferdata extends Component{
                             style = {{paddingBottom: 20}}
                         />
                     </View>
-                       <TouchableOpacity style={styles.buttonContainer} onPress={this.toIdp}><Text >ถัดไป</Text></TouchableOpacity>
+                       <TouchableOpacity style={styles.buttonContainer} onPress={this.toIdp}><Text >Send request</Text></TouchableOpacity>
 
 
                 </View>
