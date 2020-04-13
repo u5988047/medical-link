@@ -25,7 +25,7 @@ router.post('/request', function(req, res) {
    console.log(req.body.id, req.body.idp)
   
     if(save_to_db()) {
-        var reference_id = `ref_${generateRefId(10)}${generateRefId(10)}`
+        var reference_id = `${generateRefId(10)}${generateRefId(10)}`
         axios({
             method: 'post',
             url: 'http://'+process.env.SERVER_URL+':8200/rp/requests/citizen_id/'+req.body.id,
@@ -37,7 +37,7 @@ router.post('/request', function(req, res) {
               node_id: 'rp1',
               reference_id,
               idp_id_list: [req.body.idp],
-              callback_url: `http://localhost:3000/api/callback`,
+              callback_url: `http://localhost:3000/api/rp-callback`,
               data_request_list: [],
               request_message: `I would like to share my medical information to RP hospital (REF: ${reference_id})?`,
               min_ial: 2.1,
@@ -53,7 +53,7 @@ router.post('/request', function(req, res) {
               res.send({
                 request_id: r.data.request_id,
                 initial_salt: r.data.initial_salt,
-                reference_id,
+                reference_id
               })
             }
             else{
@@ -88,6 +88,18 @@ function generateRefId(n) {
 function save_to_db() {
   return true;
 }
+
+router.post('/rp-callback', function(req, res) {
+  axios({
+    method: 'post',
+    url: 'http://'+process.env.SERVER_URL+':8200/rp/request'+req.body.reference_id,
+    headers: {
+      'Content-Type': 'application/json',
+    }
+  }).then(res => {
+    console.log(r);
+  })
+})
 
 router.post('/callback', function(req, res) {
     console.log(req.body);

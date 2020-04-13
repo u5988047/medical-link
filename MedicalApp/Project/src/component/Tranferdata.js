@@ -3,10 +3,11 @@ import {StyleSheet, View,Text,Image, TextInput, TouchableOpacity, Button,Picker,
 import {Actions} from 'react-native-router-flux';
 import axios from 'axios';
 import { API_IP } from 'react-native-dotenv';
+import { Card } from 'react-native-shadow-cards';
 
 export default class Tranferdata extends Component{
-    toIdp = () => {
-        Actions.WaitIDP()
+    toLoading = () => {
+        Actions.LoadingScreen()
     }
 
     constructor(props) {
@@ -15,16 +16,20 @@ export default class Tranferdata extends Component{
             email: '',
             citizen_id: '',
             idp :'',
-            placeholderPicker :'Please choose IdP'
+            placeholderPicker :'Please choose IdP',
+            res_initial_salt: '',
+            res_ref_id: '',
+            res_req_id: '',
+            isRequest: false,
         };
         
     }
 
-
     //Function call API route to sendform
     sendrequest() {
-        var validateurl = 'http://'+API_IP+':3000/validatecid';
-        var requrl = 'http://'+API_IP+':3000/api/request';
+        var validateurl = 'http://192.168.0.104:3000/validatecid';
+        var requrl = 'http://192.168.0.104:3000/api/request';
+        var self = this;
         axios.post(validateurl, {
             email: this.state.email,
             cid: this.state.citizen_id
@@ -35,7 +40,12 @@ export default class Tranferdata extends Component{
                     idp : this.state.idp
                 })
                 .then(function (res) {
-                  console.log(res);
+                    console.log(res);
+                    self.setState({res_initial_salt: res.data.initial_salt})
+                    self.setState({res_ref_id: res.data.reference_id})
+                    self.setState({res_req_id: res.data.request_id})
+                    self.setState({isRequest: true})
+                  return (ToastAndroid.show('Your sharing medical information contract request has been sent.',ToastAndroid.SHORT))
                 })
                 .catch(function (error) {
                   console.log(error);
@@ -51,9 +61,20 @@ export default class Tranferdata extends Component{
 
 
     render() {
-        const data = {
-            citizen_id: this.state.citizen_id,
-            idp: this.state.idp
+        const isRequest = this.state.isRequest;
+        let responsecard;
+
+        // if (isRequest && this.state.res_req_id != '') {
+        if (!isRequest) {
+            responsecard = <View style = {styles.container}>
+                        <Card style={{padding: 10, margin: 10}}>
+                          <Text style = {styles.Textshow, {textAlign: "center"}}>Request details</Text>
+                          <Text style = {styles.Textshow}>Request_id: {this.state.res_req_id}</Text>
+                          <Text style = {styles.Textshow}>Initial_salt: {this.state.res_initial_salt}</Text>
+                          <Text style = {styles.Textshow}>Reference_id: {this.state.res_ref_id}</Text>
+                        </Card>
+                        <TouchableOpacity style={styles.buttonContainer} onPress={this.toLoading}><Text style = {{color: "white"}}>IdP Result</Text></TouchableOpacity>
+                    </View>;
         }
 
         return (
@@ -93,24 +114,16 @@ export default class Tranferdata extends Component{
                         <Picker.Item label ="Hospital1" value="idp1"/>
                         <Picker.Item label ="Hospital2" value="idp2" />
 
-
                      </Picker>
                      
                      </View>
                     
                     <View style = {{paddingVertical:20}}>
-                    <Button
-                            title="Send confirmation"
-                            onPress={this.sendrequest.bind(this)}
-                            style = {{paddingBottom: 20}}
-                        />
+                    
                     </View>
-                       <TouchableOpacity style={styles.buttonContainer} onPress={this.toIdp}><Text >Send request</Text></TouchableOpacity>
-
-
+                        <TouchableOpacity style={styles.buttonContainer} onPress={this.sendrequest.bind(this)}><Text style = {{color: "white"}}>Send Request</Text></TouchableOpacity>
+                        {responsecard}
                 </View>
-
-               
 
         );
     }
@@ -151,10 +164,6 @@ const styles = StyleSheet.create({
             borderBottomWidth: 1,
             paddingBottom :10
             
-           /* justifyContent : 'center',
-            alignItems:'center',
-            alignContent:'flex-start',
-            alignSelf : 'flex-start'*/
         },
         input : {
             height : 40,
@@ -164,7 +173,6 @@ const styles = StyleSheet.create({
             alignItems:'flex-end',
             alignSelf : 'flex-end',
             width : '80%',
-            
             flex : 1
             
         },
@@ -177,6 +185,11 @@ const styles = StyleSheet.create({
             justifyContent :'center',
             textAlign : 'center',
             alignItems: 'center'
+        },
+        Textshow :{
+            fontSize : 14,
+            marginVertical : 20,
+            color : 'black'
         },
 
 });

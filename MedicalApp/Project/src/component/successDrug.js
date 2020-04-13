@@ -18,8 +18,6 @@ export default class WaitIDPDelete extends Component{
   
     render() {
         
-
-
         return (
                 <View style = {styles.container}>
                      <Text style = {styles.head}>Success</Text>  
@@ -37,10 +35,7 @@ export default class WaitIDPDelete extends Component{
                     </TouchableOpacity>
                 </View>          
                        
-
                 </View>
-
-               
 
         );
     }

@@ -16,14 +16,6 @@ export default class WaitIDPDelete extends Component{
     }
 
     drugInform(){
-        // var url = 'http://localhost:3000/users/checkuser';
-        // axios.get(url)
-        // .then((Data) => {
-        //   console.log(Data.data);
-        //   this.setState({
-        //     datamong: Data.data,
-        //   }) 
-        // })
         axios({
             url: 'http://'+API_IP+':3000/drugReceipt/drugReceipt',
             method: 'get',

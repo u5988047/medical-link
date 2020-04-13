@@ -4,10 +4,7 @@ import {Actions } from 'react-native-router-flux';
 import axios from 'axios';
 import { API_IP } from 'react-native-dotenv';
 export default class drugReceipt extends Component{
-    // toAuthen = () => {
-        
-    //         Actions.Authen()
-    //     }
+    
     constructor() {
         super();
         this.state = {
@@ -32,16 +29,8 @@ export default class drugReceipt extends Component{
 
 
     drugInform(){
-        // var url = 'http://localhost:3000/users/checkuser';
-        // axios.get(url)
-        // .then((Data) => {
-        //   console.log(Data.data);
-        //   this.setState({
-        //     datamong: Data.data,
-        //   }) 
-        // })
         axios({
-            url: 'http://'+API_IP+':3000/drugReceipt/drugReceipt',
+            url: 'http://192.168.0.104:3000/drugReceipt/drugReceipt',
             method: 'get',
             headers: {
               'Content-Type': 'application/json',
@@ -86,11 +75,6 @@ export default class drugReceipt extends Component{
                     <View  style = {{borderBottomWidth : 1}}>
             <Text>{price}</Text>
                     </View>
-                    {/* <View style = {{borderBottomWidth : 1 , flexDirection:'row',justifyContent:'space-between'  }}>
-            <Text>{code}</Text>
-                 
-                
-                    </View> */}
                 </View>;
         })
 

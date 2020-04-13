@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {StyleSheet, View,Text,Image, TextInput, TouchableOpacity,Picker,Button} from 'react-native';
 import {Actions } from 'react-native-router-flux';
-
+import { API_IP } from 'react-native-dotenv';
 export default class Delete extends Component{
     
     towaitidp = () => {
@@ -21,18 +21,17 @@ export default class Delete extends Component{
 
     //Function call API route to sendform
     sendrequest() {
-        var url = 'http://192.168.43.168:3000/api/request';
+        var url = 'http://'+API_IP+':3000/api/request';
         var id;
         axios.post(url, {
                 id: this.state.citizen_id,
-                // idp: "idp2",
                 idp : this.state.idp
         })
         .then(function (res) {
           console.log(res);
         })
         .catch(function (error) {
-        //   console.log(error);
+          console.log(error);
         });
     }
     render() {

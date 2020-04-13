@@ -3,6 +3,7 @@ import {StyleSheet, View,Text,Image, TextInput, TouchableOpacity,KeyboardType, B
 
 import {Actions } from 'react-native-router-flux';
 import axios from 'axios';
+import { API_IP } from 'react-native-dotenv';
 
 export default class RegisterForm extends Component{
    
@@ -20,7 +21,7 @@ export default class RegisterForm extends Component{
 }
 
 sendRegist(){
-  var url = 'http://'+API_IP+':3000/api/account/signup';
+  var url = 'http://192.168.0.104:3000/api/account/signup';
   axios.post(url, {
     lastName: this.state.lastname,
     password: this.state.Password,
@@ -38,7 +39,7 @@ sendRegist(){
     else{
       this.state.isSuccess = false;
       console.log(this.state.isSuccess)
-      return ToastAndroid.show('Failed tosign up',ToastAndroid.SHORT);
+      return ToastAndroid.show('Failed to sign up',ToastAndroid.SHORT);
     }
   })
 }

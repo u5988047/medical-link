@@ -15,7 +15,7 @@ export default class Register extends Component{
                         <Image style = {styles.logo} 
                         source = { require('../images/health.png')} 
                     />
-                        <Text style = {styles.title}>NDID Medical Application</Text>
+                        <Text style = {styles.title}>Medical-Link Application</Text>
                 
                     </View>
 
@@ -45,7 +45,11 @@ const styles = StyleSheet.create({
     },
     logo:{
         width :150,
-        height : 150
+        height : 150,
+        borderColor: "white",
+        borderWidth: 3,
+        borderRadius: 10,
+        marginBottom: 20
     },
     logoContainer :{
         alignItems : 'center',
@@ -54,8 +58,10 @@ const styles = StyleSheet.create({
     },
     title :{
         color : '#FFF',
-        marginTop : 10,
-        width : 160
+        marginTop : 20,
+        alignSelf: 'stretch',
+        textAlign: 'center',
+        fontSize : 20,
     },
     signupTextCont:{
         alignItems : 'center',

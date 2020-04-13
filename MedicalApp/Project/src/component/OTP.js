@@ -7,19 +7,17 @@ export default class OTP extends Component{
         return (
                 <View style = {styles.container}>
                     <TextInput 
-                    placeholder = "OTP"
-                    placeholderTextColor = 'white'
-                    
-                        style = {styles.input} />
-
+                        placeholder = "OTP"
+                        placeholderTextColor = 'white'
+                        keyboardType={"number-pad"}
+                        style = {styles.input} 
+                    />
 
                     <TouchableOpacity onPress = {() => Actions.Menu()} style = {styles.buttonContainer}>
                     <Text style={styles.buttonText}>Next</Text>
                     </TouchableOpacity>
+
                 </View>
-
-               
-
         );
     }
 
@@ -56,6 +54,9 @@ const styles = StyleSheet.create({
        textAlign:'center',
        color : 'white',
       
+   },
+   resendText: {
+       paddingTop: 10
    }
 
 });

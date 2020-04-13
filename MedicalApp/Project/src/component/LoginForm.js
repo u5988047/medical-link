@@ -17,7 +17,7 @@ export default class LoginForm extends Component{
     }
 
     sendLogin = async()=> {
-      var url = 'http://'+API_IP+':3000/api/account/signin';
+      var url = 'http://192.168.0.104:3000/api/account/signin';
         axios.post(url, {
           password: this.state.password,
           email: this.state.email
