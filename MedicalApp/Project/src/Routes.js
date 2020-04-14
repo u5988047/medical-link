@@ -14,7 +14,6 @@ import History from './component/History';
 import Passcode from './component/Passcode';
 import PasscodeTranferdata from './component/PasscodeTranferdata';
 import TermconTranfer from './component/TermconTranfer';
-import Idp from './component/Idp';
 import WaitIDP from './component/WaitIDP';
 import TermconDelete from './component/TermconDelete';
 import DeleteData from './component/DeleteData';
@@ -48,7 +47,6 @@ export default class Routes extends Component {
                 <Scene key = "Passcode" component = {Passcode} title = "Passcode" />
                 <Scene key = "PasscodeTranferdata" component = {PasscodeTranferdata} title = "PasscodeTranferdata"  />
                 <Scene key = "TermconTranfer" component = {TermconTranfer} title = "TermconTranfer"  />
-                <Scene key = "Idp" component = {Idp} title = "Idp"  />
                 <Scene key = "WaitIDP" component = {WaitIDP} title = "WaitIDP"  />
                 <Scene key = "TermconDelete" component ={TermconDelete} title= "TermconDelete" />
                 <Scene key = "DeleteData" component ={DeleteData} title = "DeleteData" />

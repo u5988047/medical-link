@@ -21,6 +21,7 @@ export default class Tranferdata extends Component{
             res_ref_id: '',
             res_req_id: '',
             isRequest: false,
+            isSuccess: Boolean
         };
         
     }
@@ -39,13 +40,25 @@ export default class Tranferdata extends Component{
                     id: this.state.citizen_id,
                     idp : this.state.idp
                 })
-                .then(function (res) {
+                .then(res => {
                     console.log(res);
-                    self.setState({res_initial_salt: res.data.initial_salt})
-                    self.setState({res_ref_id: res.data.reference_id})
-                    self.setState({res_req_id: res.data.request_id})
-                    self.setState({isRequest: true})
-                  return (ToastAndroid.show('Your sharing medical information contract request has been sent.',ToastAndroid.SHORT))
+                    if(!res){
+                        return (ToastAndroid.show('No IdP found',ToastAndroid.SHORT))
+                    }
+                    else{
+                          self.setState({res_initial_salt: res.data.initial_salt})
+                          self.setState({res_ref_id: res.data.reference_id})
+                          self.setState({res_req_id: res.data.request_id})
+                            if(this.state.res_ref_id.length == 20)
+                            {
+                                self.setState({isRequest: true})
+                                self.setState({isSuccess: true})
+                              return (ToastAndroid.show('Your sharing medical information contract request has been sent.',ToastAndroid.SHORT))
+                            }
+                            else{
+                                return (ToastAndroid.show('No IdP found',ToastAndroid.SHORT))
+                            }
+                    }
                 })
                 .catch(function (error) {
                   console.log(error);
@@ -64,10 +77,9 @@ export default class Tranferdata extends Component{
         const isRequest = this.state.isRequest;
         let responsecard;
 
-        // if (isRequest && this.state.res_req_id != '') {
-        if (!isRequest) {
+        if (isRequest && this.state.res_req_id != '') {
             responsecard = <View style = {styles.container}>
-                        <Card style={{padding: 10, margin: 10}}>
+                        <Card style={{padding: 10, margin: 10, marginBottom: 30}}>
                           <Text style = {styles.Textshow, {textAlign: "center"}}>Request details</Text>
                           <Text style = {styles.Textshow}>Request_id: {this.state.res_req_id}</Text>
                           <Text style = {styles.Textshow}>Initial_salt: {this.state.res_initial_salt}</Text>
@@ -77,9 +89,14 @@ export default class Tranferdata extends Component{
                     </View>;
         }
 
+        if (!this.state.isSuccess) {
+            responsecard = (ToastAndroid.show('No IdP found',ToastAndroid.SHORT))
+        }
+
         return (
                 <View style = {styles.container}>
-                     <Text style = {styles.head}>Please enter your information</Text>  
+                     <Text style = {styles.head}>Please enter your information</Text>
+                     <View style = {{padding: 8, borderWidth: 2, borderRadius: 8, borderColor: "gray", margin: 10}}>
                      <View style = {styles.inputcontainer}>
                                 <Text style ={{marginTop:10, marginLeft: 10}}>Email</Text>   
                                          <TextInput 
@@ -92,7 +109,7 @@ export default class Tranferdata extends Component{
                        
                        </View>
                      <View style = {styles.inputcontainer}>
-                                <Text style ={{marginTop:10, marginLeft: 10}}>Citizen ID</Text>   
+                                <Text style ={{marginTop:15, marginLeft: 10}}>Citizen ID</Text>   
                                          <TextInput 
                                              placeholder = "11000505245256"
                                              placeholderTextColor = 'gray'
@@ -117,6 +134,7 @@ export default class Tranferdata extends Component{
                      </Picker>
                      
                      </View>
+                     </View> 
                     
                     <View style = {{paddingVertical:20}}>
                     
@@ -134,7 +152,6 @@ const styles = StyleSheet.create({
         backgroundColor : 'white',
         flex : 1,
         alignItems: 'center',
-        paddingVertical: 20
               },
         option :{
             flexDirection :'row',
@@ -149,12 +166,12 @@ const styles = StyleSheet.create({
             height : 40,
             backgroundColor :'#B40431',
             marginBottom : 10,
-            paddingHorizontal : 30,
             width : '100%',
             alignItems :'center',
             textAlign:'center',
             color: '#FFFF',
-            fontSize:18
+            fontSize: 18,
+            paddingTop: 5
         },
         
         inputcontainer :{
@@ -173,7 +190,8 @@ const styles = StyleSheet.create({
             alignItems:'flex-end',
             alignSelf : 'flex-end',
             width : '80%',
-            flex : 1
+            flex : 1,
+            marginTop: 5
             
         },
         buttonContainer :{
