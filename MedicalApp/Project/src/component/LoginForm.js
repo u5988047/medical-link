@@ -12,12 +12,16 @@ export default class LoginForm extends Component{
             error: false,
             loginSucess: false,
             email: String,
-            password: String
+            password: String,
+            secret: String,
+            user: String
         };
     }
 
     sendLogin = async()=> {
-      var url = 'http://192.168.0.104:3000/api/account/signin';
+      var url = 'http://192.168.0.109:3000/api/account/signin';
+      var mailurl = 'http://192.168.0.109:3000/mailsender';
+      var self = this;
         axios.post(url, {
           password: this.state.password,
           email: this.state.email
@@ -30,7 +34,18 @@ export default class LoginForm extends Component{
             } catch(e) {
               console.log(e)
             }
-            return (Actions.OTP(),ToastAndroid.show('Hello '+res.data.firstName+' please input OTP',ToastAndroid.SHORT))
+            self.setState({user: res.data.firstName})
+            axios.post(mailurl, {
+              email: this.state.email
+            }).then(res => {
+              console.log(res)
+              if(res.data.success == true){
+                self.setState({secret: res.data.secret});
+                return (Actions.OTP({secret: this.state.secret}),ToastAndroid.show('Hello '+ this.state.user +' please input OTP',ToastAndroid.SHORT))
+              } else {
+                return (ToastAndroid.show('Server error please contact application owner.',ToastAndroid.SHORT))
+              }
+            })
           }
           else{
             return (ToastAndroid.show('Invalid username or password',ToastAndroid.SHORT))

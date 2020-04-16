@@ -2,8 +2,10 @@ var express = require('express');
 var router = express.Router();
 const User = require('../models/User');
 const mongoose = require('mongoose');
+const axios = require('axios');
 const bcrypt = require('bcrypt');
 const speakeasy = require('speakeasy');
+const nodemailer = require('nodemailer');
 const UserSession = require('../models/UserSession');
 const db = mongoose
           .connect(process.env.MONGO_URL, {
@@ -236,32 +238,6 @@ router.post('/api/account/logout', (req, res, next) => {
   });
 });
 
-router.post("/totp-secret", (req, res, next) => {
-  var secret = speakeasy.generateSecret({ length: 20 });
-  res.send({"secret": secret.base32 });
-});
-
-router.post("/totp-generate", (req, res, next) => {
-  res.send({
-      "token": speakeasy.totp({
-          secret: req.body.secret,
-          encoding: "base32"
-      }),
-      "remaining": (5000 - Math.floor((new Date().getTime() / 1000.0 % 30)))
-  });
-});
-
-router.post("/totp-validate", (req, res, next) => {
-  res.send({
-      "valid": speakeasy.totp.verify({
-          secret: req.body.secret,
-          encoding: "base32",
-          token: req.body.token,
-          window: 0
-      })
-  })
-});
-
 router.post("/validatecid", (req,res,next) => {
   const { body } = req;
   let {
@@ -315,5 +291,131 @@ router.post("/validatecid", (req,res,next) => {
     }
   })
 })
+
+router.post('/drugcode', (req, res, next) => {
+  const { body } = req;
+  let {
+    email,
+  } = body;
+  var secret = speakeasy.generateSecret({ length: 20});
+  var token;
+  var remaining;
+  var ref = generateRefId(5);
+
+  token = speakeasy.totp({
+            secret: secret.base32,
+            encoding: "base32"
+          });
+          console.log(secret)
+  console.log(token);
+  remaining = (5000 - Math.floor((new Date().getTime() / 1000.0 % 30)));
+  console.log(remaining);
+
+  let transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: 'ndidseniorproject@gmail.com',
+      pass: 'ndid5988119'
+    }
+  });
+
+  let mailOptions = {
+    from: 'ndidseniorproject@gmail.com',
+    to: email,
+    subject: 'Drug Receipt Code Confirmation',
+    text: 'Drug Receipt code for Medical Link Application: '+ token + ' (REF: ' + ref + ')'
+  };
+
+  transporter.sendMail(mailOptions, function(err, data) {
+    if(err) {
+      console.log('Error occurs');
+      return res.send({
+        success: "false"
+      });
+    } else {
+      console.log('Email Sent!');
+      return res.send({
+        success: "true"
+      });
+    }
+  });
+
+})
+
+router.post('/mailsender', (req, res, next) => {
+  const { body } = req;
+  let {
+    email,
+  } = body;
+
+  var secret = speakeasy.generateSecret({ length: 20});
+  var token;
+  var remaining;
+  var ref = generateRefId(5);
+
+  token = speakeasy.totp({
+            secret: secret.base32,
+            encoding: "base32"
+          });
+          console.log(secret)
+  console.log(token);
+  remaining = (5000 - Math.floor((new Date().getTime() / 1000.0 % 30)));
+
+  let transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: 'ndidseniorproject@gmail.com',
+      pass: 'ndid5988119'
+    }
+  });
+
+  let mailOptions = {
+    from: 'ndidseniorproject@gmail.com',
+    to: email,
+    subject: 'Medical-Link OTP Confirmation',
+    text: 'OTP for Medical Link Application: '+ token + ' (REF: ' + ref + ')'
+  };
+
+  transporter.sendMail(mailOptions, function(err, data) {
+    if(err) {
+      console.log('Error occurs');
+      return res.send({
+        success: false
+      });
+    } else {
+      console.log('Email Sent!');
+      return res.send({
+        success: true,
+        secret: secret.base32
+      });
+    }
+  });
+
+})
+
+router.post("/otp-validate", (req, res, next) => {
+  res.send({
+      "valid": speakeasy.totp.verify({
+          secret: req.body.secret,
+          encoding: "base32",
+          token: req.body.token,
+          window: 1
+      })
+  })
+});
+
+function generateRefId(n) {
+  var add = 1, max = 12 - add;   // 12 is the min safe number Math.random() can generate without it starting to pad the end with zeros.   
+
+  if ( n > max ) {
+          return generate(max) + generate(n - max);
+  }
+
+  max        = Math.pow(10, n + add);
+  var min    = max/10; // Math.pow(10, n) basically
+  var number = Math.floor( Math.random() * (max - min + 1) ) + min;
+
+  return ("" + number).substring(add); 
+}
 
 module.exports = router;

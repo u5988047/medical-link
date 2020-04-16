@@ -28,8 +28,8 @@ export default class Tranferdata extends Component{
 
     //Function call API route to sendform
     sendrequest() {
-        var validateurl = 'http://192.168.0.104:3000/validatecid';
-        var requrl = 'http://192.168.0.104:3000/api/request';
+        var validateurl = 'http://192.168.0.109:3000/validatecid';
+        var requrl = 'http://192.168.0.109:3000/api/request';
         var self = this;
         axios.post(validateurl, {
             email: this.state.email,
@@ -49,15 +49,9 @@ export default class Tranferdata extends Component{
                           self.setState({res_initial_salt: res.data.initial_salt})
                           self.setState({res_ref_id: res.data.reference_id})
                           self.setState({res_req_id: res.data.request_id})
-                            if(this.state.res_ref_id.length == 20)
-                            {
                                 self.setState({isRequest: true})
                                 self.setState({isSuccess: true})
                               return (ToastAndroid.show('Your sharing medical information contract request has been sent.',ToastAndroid.SHORT))
-                            }
-                            else{
-                                return (ToastAndroid.show('No IdP found',ToastAndroid.SHORT))
-                            }
                     }
                 })
                 .catch(function (error) {

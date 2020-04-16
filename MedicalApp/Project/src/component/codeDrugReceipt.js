@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {StyleSheet, View,Text,Image, TextInput, TouchableOpacity} from 'react-native';
+import {StyleSheet, View,Text,Image, TextInput, TouchableOpacity, ScrollView} from 'react-native';
 import {Actions } from 'react-native-router-flux';
 import axios from 'axios';
 import { API_IP } from 'react-native-dotenv';
@@ -48,11 +48,11 @@ export default class WaitIDPDelete extends Component{
 
         return  <View>
                     
-                    <View style = {{borderBottomWidth : 1 , flexDirection:'row',justifyContent:'space-between'  }}>
+                    <ScrollView style = {{borderBottomWidth : 1 , flexDirection:'row',justifyContent:'space-between'  }}>
             <Text style = {styles.Textshow}>{code}</Text>
                  
                 
-                    </View>
+                    </ScrollView>
                 </View>;
         })
 

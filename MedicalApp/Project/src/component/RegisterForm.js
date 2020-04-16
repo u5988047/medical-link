@@ -21,7 +21,7 @@ export default class RegisterForm extends Component{
 }
 
 sendRegist(){
-  var url = 'http://192.168.0.104:3000/api/account/signup';
+  var url = 'http://192.168.0.109:3000/api/account/signup';
   axios.post(url, {
     lastName: this.state.lastname,
     password: this.state.Password,
