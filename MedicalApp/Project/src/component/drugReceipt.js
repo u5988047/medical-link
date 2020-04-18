@@ -2,11 +2,13 @@ import React, {Component} from 'react';
 import {StyleSheet, View,Text,Image, TextInput, TouchableOpacity} from 'react-native';
 import {Actions } from 'react-native-router-flux';
 export default class drugReceipt extends Component{
+
     
     todrugInfor = () => {
         
             Actions.drugInformation()
         }
+        
     render() {
 
         return (
@@ -32,12 +34,6 @@ export default class drugReceipt extends Component{
                             <View style = {{alignItems: 'center'}}>
                             <Text style = {styles.Textshow}>January</Text>
                             </View>
-                            {/* <View>
-                            <Text style = {styles.Textshow}>ออกวันที่ : 31 มกราคม 2563</Text>
-                            </View>
-                            <View>
-                            <Text style = {styles.Textshow}>สถานะ : ยังไม่รับ</Text>
-                            </View> */}
                     </View>
                     </TouchableOpacity>
                     

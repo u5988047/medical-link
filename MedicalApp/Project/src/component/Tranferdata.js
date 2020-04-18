@@ -31,10 +31,12 @@ export default class Tranferdata extends Component{
         var validateurl = 'http://192.168.0.109:3000/validatecid';
         var requrl = 'http://192.168.0.109:3000/api/request';
         var self = this;
+        console.log(new Date().getSeconds)
         axios.post(validateurl, {
             email: this.state.email,
             cid: this.state.citizen_id
         }).then(res => {
+            console.log(Math.floor(Date.now()/1000))
             if(res.data.success == true) {
                 axios.post(requrl, {
                     id: this.state.citizen_id,

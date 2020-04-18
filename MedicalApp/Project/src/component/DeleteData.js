@@ -1,47 +1,111 @@
 import React, {Component} from 'react';
-import {StyleSheet, View,Text,Image, TextInput, TouchableOpacity,Picker,Button} from 'react-native';
-import {Actions } from 'react-native-router-flux';
+import {StyleSheet, View,Text,Image, TextInput, TouchableOpacity, Button,Picker,ToastAndroid} from 'react-native';
+import {Actions} from 'react-native-router-flux';
+import axios from 'axios';
 import { API_IP } from 'react-native-dotenv';
-export default class Delete extends Component{
-    
-    towaitidp = () => {
-        Actions.WaitIDPDelete()
+import { Card } from 'react-native-shadow-cards';
+
+export default class Deletedata extends Component{
+    toLoading = () => {
+        Actions.LoadingScreen()
     }
+
     constructor(props) {
         super(props);
         this.state = {
+            email: '',
             citizen_id: '',
             idp :'',
-            placeholderPicker :'Please Select IDP'
-            
+            placeholderPicker :'Please choose IdP',
+            res_initial_salt: '',
+            res_ref_id: '',
+            res_req_id: '',
+            isRequest: false,
+            isSuccess: Boolean
         };
         
     }
 
-
     //Function call API route to sendform
     sendrequest() {
-        var url = 'http://'+API_IP+':3000/api/request';
-        var id;
-        axios.post(url, {
-                id: this.state.citizen_id,
-                idp : this.state.idp
+        var validateurl = 'http://192.168.0.109:3000/validatecid';
+        var requrl = 'http://192.168.0.109:3000/api/request';
+        var self = this;
+        console.log(new Date().getSeconds)
+        axios.post(validateurl, {
+            email: this.state.email,
+            cid: this.state.citizen_id
+        }).then(res => {
+            console.log(Math.floor(Date.now()/1000))
+            if(res.data.success == true) {
+                axios.post(requrl, {
+                    id: this.state.citizen_id,
+                    idp : this.state.idp
+                })
+                .then(res => {
+                    console.log(res);
+                    if(!res){
+                        return (ToastAndroid.show('No IdP found',ToastAndroid.SHORT))
+                    }
+                    else{
+                          self.setState({res_initial_salt: res.data.initial_salt})
+                          self.setState({res_ref_id: res.data.reference_id})
+                          self.setState({res_req_id: res.data.request_id})
+                                self.setState({isRequest: true})
+                                self.setState({isSuccess: true})
+                              return (ToastAndroid.show('Your sharing medical information contract request has been sent.',ToastAndroid.SHORT))
+                    }
+                })
+                .catch(function (error) {
+                  console.log(error);
+                });
+            }
+            else {
+                console.log(res.data.message)
+                return (ToastAndroid.show('Incorrect Information',ToastAndroid.SHORT))
+            }
         })
-        .then(function (res) {
-          console.log(res);
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+
     }
+
+
     render() {
+        const isRequest = this.state.isRequest;
+        let responsecard;
+
+        if (isRequest && this.state.res_req_id != '') {
+            responsecard = <View style = {styles.container}>
+                        <Card style={{padding: 10, margin: 10, marginBottom: 30}}>
+                          <Text style = {styles.Textshow, {textAlign: "center"}}>Request details</Text>
+                          <Text style = {styles.Textshow}>Request_id: {this.state.res_req_id}</Text>
+                          <Text style = {styles.Textshow}>Initial_salt: {this.state.res_initial_salt}</Text>
+                          <Text style = {styles.Textshow}>Reference_id: {this.state.res_ref_id}</Text>
+                        </Card>
+                        <TouchableOpacity style={styles.buttonContainer} onPress={this.toLoading}><Text style = {{color: "white"}}>IdP Result</Text></TouchableOpacity>
+                    </View>;
+        }
+
+        if (!this.state.isSuccess) {
+            responsecard = (ToastAndroid.show('No IdP found',ToastAndroid.SHORT))
+        }
 
         return (
                 <View style = {styles.container}>
-                     <Text style = {styles.head}>Please enter your information (Delete)</Text>  
-
+                     <Text style = {styles.head}>Please enter your information</Text>
+                     <View style = {{padding: 8, borderWidth: 2, borderRadius: 8, borderColor: "gray", margin: 10}}>
                      <View style = {styles.inputcontainer}>
-                                <Text style ={{marginTop:10, marginLeft:10,fontSize:16}}>Citizen ID</Text>   
+                                <Text style ={{marginTop:10, marginLeft: 10}}>Email</Text>   
+                                         <TextInput 
+                                             placeholder = "test@example.com"
+                                             placeholderTextColor = 'gray'
+                                             style = {styles.input}
+                                             onChangeText={(value) => this.setState({email: value})}
+                                             value={this.state.email}
+                                        />
+                       
+                       </View>
+                     <View style = {styles.inputcontainer}>
+                                <Text style ={{marginTop:15, marginLeft: 10}}>Citizen ID</Text>   
                                          <TextInput 
                                              placeholder = "11000505245256"
                                              placeholderTextColor = 'gray'
@@ -52,7 +116,7 @@ export default class Delete extends Component{
                                         />
                        
                        </View>
-
+                       
                        <View style = {styles.inputcontainer}> 
                      <Picker
                      style = {{width:'100%'}}
@@ -63,27 +127,17 @@ export default class Delete extends Component{
                         <Picker.Item label ="Hospital1" value="idp1"/>
                         <Picker.Item label ="Hospital2" value="idp2" />
 
-
                      </Picker>
                      
                      </View>
-
-                     <View style = {{paddingVertical:20}}>
-                    <Button
-                            title="Send confirmation"
-                            onPress={this.sendrequest.bind(this)}
-                            style = {{paddingBottom: 20}}
-                        />
+                     </View> 
+                    
+                    <View style = {{paddingVertical:20}}>
+                    
                     </View>
-                       <TouchableOpacity style={styles.buttonContainer} onPress={this.towaitidp}><Text style = {{ color:"white"}}>Next</Text></TouchableOpacity>
-                     
-                       
-                    
-                    
-                   
+                        <TouchableOpacity style={styles.buttonContainer} onPress={this.sendrequest.bind(this)}><Text style = {{color: "white"}}>Send Request</Text></TouchableOpacity>
+                        {responsecard}
                 </View>
-
-               
 
         );
     }
@@ -94,7 +148,6 @@ const styles = StyleSheet.create({
         backgroundColor : 'white',
         flex : 1,
         alignItems: 'center',
-        paddingVertical: 20
               },
         option :{
             flexDirection :'row',
@@ -109,12 +162,12 @@ const styles = StyleSheet.create({
             height : 40,
             backgroundColor :'#B40431',
             marginBottom : 10,
-            paddingHorizontal : 30,
             width : '100%',
             alignItems :'center',
             textAlign:'center',
             color: '#FFFF',
-            fontSize:18
+            fontSize: 18,
+            paddingTop: 5
         },
         
         inputcontainer :{
@@ -124,10 +177,6 @@ const styles = StyleSheet.create({
             borderBottomWidth: 1,
             paddingBottom :10
             
-           /* justifyContent : 'center',
-            alignItems:'center',
-            alignContent:'flex-start',
-            alignSelf : 'flex-start'*/
         },
         input : {
             height : 40,
@@ -137,8 +186,8 @@ const styles = StyleSheet.create({
             alignItems:'flex-end',
             alignSelf : 'flex-end',
             width : '80%',
-            
-            flex : 1
+            flex : 1,
+            marginTop: 5
             
         },
         buttonContainer :{
@@ -150,6 +199,11 @@ const styles = StyleSheet.create({
             justifyContent :'center',
             textAlign : 'center',
             alignItems: 'center'
+        },
+        Textshow :{
+            fontSize : 14,
+            marginVertical : 20,
+            color : 'black'
         },
 
 });

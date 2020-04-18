@@ -17,7 +17,7 @@ export default class WaitIDPDelete extends Component{
 
     drugInform(){
         axios({
-            url: 'http://'+API_IP+':3000/drugReceipt/drugReceipt',
+            url: 'http://192.168.0.109:3000/drugReceipt/drugReceipt',
             method: 'get',
             headers: {
               'Content-Type': 'application/json',

@@ -23,6 +23,7 @@ router.post('/showidp', function(req, res) {
 
 router.post('/request', function(req, res) {
    console.log(req.body.id, req.body.idp)
+   console.log("First stamp: " + Math.floor(Date.now()/1000))
   
     if(save_to_db()) {
         var reference_id = `${generateRefId(10)}${generateRefId(10)}`
@@ -49,7 +50,7 @@ router.post('/request', function(req, res) {
           }).then(r => {
             if(r.status == 202){
               console.log('success');
-              console.log(r.data);
+              console.log("Second stamp: " + Math.floor(Date.now()/1000))
               res.send({
                 request_id: r.data.request_id,
                 initial_salt: r.data.initial_salt,

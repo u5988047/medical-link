@@ -1,15 +1,18 @@
 import React, {Component} from 'react';
-import {StyleSheet, View,Text,Image, TextInput, TouchableOpacity, Button,CheckBox,} from 'react-native';
+import {StyleSheet, View, Dimensions,Text, TextInput, TouchableOpacity, SafeAreaView, ScrollView} from 'react-native';
 import {Actions } from 'react-native-router-flux';
 import axios from 'axios';
 import { API_IP } from 'react-native-dotenv';
+const { height } = Dimensions.get('window');
+
+
 export default class drugReceipt extends Component{
-    
+
     constructor() {
         super();
         this.state = {
             datadrug: [],  
-            
+            screenHeight: 0,
            
         };
         
@@ -30,7 +33,7 @@ export default class drugReceipt extends Component{
 
     drugInform(){
         axios({
-            url: 'http://192.168.0.104:3000/drugReceipt/drugReceipt',
+            url: 'http://192.168.0.109:3000/drugReceipt/drugReceipt',
             method: 'get',
             headers: {
               'Content-Type': 'application/json',
@@ -50,31 +53,48 @@ export default class drugReceipt extends Component{
         
             Actions.WaitIDPReceipt()
         }
+
     toInput = () => {
         
             Actions.drugInputID()
         }
+
+    onContentSizeChange = (contentWidth, contentHeight) => {
+        this.setState({screenHeight: contentHeight});
+    }
+        
     render() {
-        const dataMongo = this.state.datadrug.map((item, index) => {
+        const scrollEnabled = this.state.screenHeight > height;
+        const dataDrug = this.state.datadrug.map((item, index) => {
             var ID = ['ID: ',item.ID]
-            var DTname = ['แพทย์ : ',item.แพทย์]
-            var list = ['รายการยา : ',item.รายการยา]
-            var price = ['ราคาที่ต้องชำระ : ',item.ราคาที่ต้องชำระ]
+            var DTname = ['รหัสแพทย์ : ',item.Doctor_ID]
+            var list = ['รายการยา : ',item.Drug_List]
+            var price = ['ราคาที่ต้องชำระ : ',item.Price]
             var code = ['รหัสยืนยัน : ',item.รหัสยืนยัน]
 
-        return  <View>
+        return  <View style={styles.listcard}>
                     <View>
-            <Text style={{fontSize:20,fontWeight:'bold'}} key={index}>{ID}</Text>
+                            <Text style={{fontSize:20,fontWeight:'bold'}} key={index}>{ID}</Text>
                     </View>
+
                     <View>
-            <Text>{DTname}</Text>
+                            <Text>{DTname}</Text>
                     </View>
+                    
                     <View>
-            <Text>{list}</Text>
+                            <Text>{list}</Text>
                     </View>
-                    <View  style = {{borderBottomWidth : 1}}>
-            <Text>{price}</Text>
+
+                    <View>
+                            <Text>{price}</Text>
                     </View>
+
+                    <View>
+                        <TouchableOpacity style = {styles.buttonReceipt} onPress ={this.toInput}>
+                           <Text style = {{color:'white'}}>Recieve</Text>
+                       </TouchableOpacity>
+                    </View>
+
                 </View>;
         })
 
@@ -83,32 +103,14 @@ export default class drugReceipt extends Component{
                     
                     <Text style = {styles.head}>Drug Receipt Information</Text>
 
-                    <View>
+                        <SafeAreaView>
 
-                    <View style={{flexDirection:'column'}}>
-                        {dataMongo}
-                        
-                    </View>
-                        {/* <Text style = {styles.Textshow}>
-                            ID : 00001
-                        </Text>
-                        <Text style = {styles.Textshow}>
-                            โรงพยาบาล : Hospital1
-                        </Text>
-                        <Text style = {styles.Textshow}>
-                            แพทย์ : DT0005
-                        </Text>
-                        <Text style = {styles.Textshow}>
-                            รายการยา : ยาแก้ปวด,ยาลดไข้
-                        </Text>
-                        <Text style = {styles.Textshow}>
-                            ราคาที่ต้องชำระ : 500 บาท
-                        </Text>
-                        <Text style = {styles.Textshow}>
-                            รหัสยืนยัน : 159632
-                        </Text> */}
-
-                    </View>
+                                <ScrollView 
+                                    style={{flexDirection:'column'}}
+                                    scrollEnable = {scrollEnabled}
+                                    onContentSizeChange = {this.onContentSizeChange}
+                                >
+                                        {dataDrug}
 
                     
                     <View style = {{alignItems :'center',}}>
@@ -118,14 +120,10 @@ export default class drugReceipt extends Component{
                            <Text style = {{color : 'white'}}>Press for Information</Text>
                         </TouchableOpacity>
                     </View>
-                   
-                   <View style = {{alignItems :'flex-end'}}>
-                       <TouchableOpacity style = {styles.buttonReceipt} onPress ={this.toInput}>
-                           <Text style = {{color:'white'}}>Next</Text>
-                       </TouchableOpacity>
-                   </View>
                     
-                    
+                    </ScrollView>
+
+                    </SafeAreaView>
                 </View>
 
               );
@@ -135,10 +133,6 @@ const styles = StyleSheet.create({
     container:{
         backgroundColor : 'white',
         flex : 1,
-        // flexDirection :'row',
-        
-        
-      
     },
     head : {
         height : 40,
@@ -149,7 +143,8 @@ const styles = StyleSheet.create({
         alignItems :'center',
         textAlign:'center',
         color: '#FFFF',
-        fontSize:20
+        fontSize:20,
+        paddingTop: 5
     },
     Textshow :{
         fontSize : 20,
@@ -171,15 +166,21 @@ const styles = StyleSheet.create({
    },
    buttonReceipt :{
     backgroundColor :'green',
-    paddingVertical : 15,
-    height :50,
+    height : 30,
     width : 100,
-    marginBottom : 20,
+    marginTop : 5,
+    marginLeft: 120,
     borderRadius : 25,
     alignItems :'center',
-    
-    
+    paddingTop: 5
+    },
 
-},
+    listcard: {
+        padding: 8, 
+        borderWidth: 2, 
+        borderRadius: 8, 
+        borderColor: "gray", 
+        margin: 10
+    },
 
 });

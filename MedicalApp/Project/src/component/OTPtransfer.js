@@ -3,19 +3,20 @@ import {StyleSheet, View,Text,Image, TextInput, TouchableOpacity, ToastAndroid} 
 import {Actions } from 'react-native-router-flux';
 import axios from 'axios';
 
-export default class OTP extends Component{
+export default class OTPtransfer extends Component{
 
     constructor(props) {
         super(props)
         this.state = {
             otp: String,
+            secret: String
         };
     }
     
     validating() {
         var url = 'http://192.168.0.109:3000/otp-validate'
         axios.post(url, {
-            secret: this.props.secret,
+            secret: this.state.secret,
             token: this.state.otp
         }).then(res => {
             if(res.data.valid == true) {
