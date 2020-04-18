@@ -3,7 +3,7 @@ import {StyleSheet, View,Text,Image, TextInput, TouchableOpacity, ToastAndroid} 
 import {Actions } from 'react-native-router-flux';
 import { CheckBox } from 'react-native';
 
-export default class TermconDelete extends Component{
+export default class TermconTranfer extends Component{
 
     constructor(){
         super();
@@ -35,7 +35,7 @@ export default class TermconDelete extends Component{
 
         return (
                 <View style = {styles.container}>
-                     <Text style = {styles.head}>Terms and Conditions (Transfer Information)</Text>
+                     <Text style = {styles.head}>Terms and Conditions (Delete Information)</Text>
                         <View style = {styles.termBox}>
                             <Text style = {{paddingHorizontal:20, paddingVertical:20}}>
                                 <Text>                  </Text>Ipsum a arcu cursus vitae congue mauris rhoncus aenean vel elit scelerisque mauris pellentesque pulvinar pellentesque habitant 
