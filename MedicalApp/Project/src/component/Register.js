@@ -1,16 +1,35 @@
 import React, {Component} from 'react';
-import {StyleSheet, View,Text,Image, TouchableOpacity} from 'react-native';
+import {StyleSheet, Dimensions, SafeAreaView, ScrollView, View,Text,Image, TouchableOpacity} from 'react-native';
 
 import RegisterForm from './RegisterForm';
 import { Actions } from 'react-native-router-flux';
+const { height } = Dimensions.get('window');
 
 /*export const IMAGENAME = require('./health.png');
 import { IMAGENAME } from '../images';*/
 export default class Register extends Component{
+
+    constructor() {
+        super();
+        this.state = {  
+            screenHeight: 0,
+        };
+    }
+
+    onContentSizeChange = (contentWidth, contentHeight) => {
+        this.setState({screenHeight: contentHeight});
+    }
+
     render() {
+        const scrollEnabled = this.state.screenHeight > height;
 
         return (
-                <View style = {styles.container}>
+            <SafeAreaView style = {{backgroundColor : '#FDA7DF'}}>
+                <ScrollView 
+                    style = {{flexDirection:'column', backgroundColor : '#FDA7DF', marginTop: 30}}
+                    scrollEnable = {scrollEnabled}
+                    onContentSizeChange = {this.onContentSizeChange}
+                >
                     <View style = {styles.logoContainer}>
                         <Image style = {styles.logo} 
                         source = { require('../images/health.png')} 
@@ -30,8 +49,8 @@ export default class Register extends Component{
                     </View>
 
                    
-                </View>
-
+                </ScrollView>
+            </SafeAreaView>
 
         );
     }
@@ -54,7 +73,8 @@ const styles = StyleSheet.create({
     logoContainer :{
         alignItems : 'center',
         flexGrow : 1,
-        justifyContent:'center'
+        justifyContent:'center',
+        marginBottom: 160
     },
     title :{
         color : '#FFF',

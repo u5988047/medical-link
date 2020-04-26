@@ -15,9 +15,85 @@ export default class RegisterForm extends Component{
         cid: '',
         Email :'',
         Password: '',
-        isSuccess: false
+        isSuccess: false,
+        secret: String,
+        ischeck: false,
+        otp: String,
+        reqid: String
     };
     
+}
+
+verifyEmail() {
+  var mailurl = 'http://192.168.0.109:3000/mailsender';
+  var self = this;
+  axios.post(mailurl, {
+    email: this.state.Email
+  }).then(res => {
+    console.log(res)
+    if(res.data.success == true) {
+      self.setState({secret: res.data.secret});
+      self.setState({ischeck: true});
+      return (ToastAndroid.show('Please check OTP in mailbox',ToastAndroid.SHORT))
+    } 
+    if(res.data.success == false) {
+      return (ToastAndroid.show('Your email is not correct.',ToastAndroid.SHORT))
+    }
+    else {
+      return (ToastAndroid.show('Server error please contact application owner.',ToastAndroid.SHORT))
+    }
+  })
+}
+
+registsend() {
+  var registurl = 'http://192.168.0.109:3000/api/registrequest';
+  var signupurl = 'http://192.168.0.109:3000/api/account/signup';
+  var validurl = 'http://192.168.0.109:3000/otp-validate';
+  var asdata = 'http://192.168.0.109:3000/api/getdatafromAS';
+  var self = this;
+  axios.post(validurl, {
+    secret: this.state.secret,
+    token: this.state.otp
+  }).then(res => {
+    if(res.data.valid == true) {
+      axios.post(registurl, {
+        id: this.state.cid,
+        idp: 'idp1'
+      }).then(res => {
+        self.setState({reqid: res.data.request_id})
+        if(res.data.reference_id) {
+          axios.post(asdata, {
+            request_id: this.state.reqid
+          }).then(res => {
+            axios.post(signupurl, {
+              lastName: this.state.lastname,
+              password: this.state.Password,
+              citizenID: this.state.cid,
+              firstName: this.state.firstname,
+              email: this.state.Email
+            }).then(res=> {
+              console.log(JSON.stringify(res))
+              console.log(res.data.success)
+              if(res.data.success == true){
+                this.state.isSuccess = true;
+                console.log(this.state.isSuccess)
+                return (Actions.Login(),ToastAndroid.show('Your account is sign up',ToastAndroid.SHORT))
+              }
+              else{
+                this.state.isSuccess = false;
+                console.log(this.state.isSuccess)
+                return ToastAndroid.show('Failed to sign up',ToastAndroid.SHORT);
+              }
+            })
+          })
+        } else {
+          return (ToastAndroid.show('Cannot found your credential in IDP.',ToastAndroid.SHORT))
+        }
+      })
+    } else {
+      return (ToastAndroid.show('Wrong verification code please try again.',ToastAndroid.SHORT))
+    }
+  })
 }
 
 sendRegist(){
@@ -45,6 +121,25 @@ sendRegist(){
 }
 
 render() {
+    const ischeck = this.state.ischeck;
+    let otpinput;
+    if (ischeck == true) {
+      otpinput = <View style = {styles.container}>
+        <TextInput 
+        placeholder = "OTP"
+        placeholderTextColor = '#B40431'
+        style = {styles.input}
+        onChangeText={(value) => this.setState({otp: value})}
+        value={this.state.otp}
+      />
+      <TouchableOpacity
+          style = {styles.buttonContainer}
+          onPress={this.registsend.bind(this)}
+         >
+          <Text style={styles.buttonText}>Register</Text>
+      </TouchableOpacity>
+      </View>; 
+    }
 
     return (
                 <View style = {styles.container}>
@@ -90,10 +185,11 @@ render() {
 
 <TouchableOpacity
     style = {styles.buttonContainer}
-    onPress={this.sendRegist.bind(this)}
+    onPress={this.verifyEmail.bind(this)}
    >
-    <Text style={styles.buttonText}>Register</Text>
-</TouchableOpacity>                                    
+    <Text style={styles.buttonText}>Verify Email</Text>
+</TouchableOpacity>
+    {otpinput}                                    
                 </View>
         );
     }

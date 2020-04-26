@@ -3,6 +3,7 @@ import {Router, Stack,Scene} from 'react-native-router-flux';
 
 import Login from './component/Login';
 import OTP from './component/OTP';
+import OTPreg from './component/OTPreg';
 import Menu from'./component/Menu';
 import Authen from './component/Authen';
 import drugReceipt from './component/drugReceipt';
@@ -36,7 +37,8 @@ export default class Routes extends Component {
             <Stack key = "root" hideNavBar = {true}>
                 <Scene key = "Login" component = {Login} title = "Login" initial ={true}  />
                 <Scene key = "OTP" component = {OTP} title = "OTP" />
-                <Scene key = "Menu" component = {Menu} title = "OTP" />
+                <Scene key = "OTPreg" component = {OTPreg} title = "OTPreg" />
+                <Scene key = "Menu" component = {Menu} title = "Menu" />
                 <Scene key = "Authen" component = {Authen} title = "Authen" />
                 <Scene key = "drugReceipt" component = {drugReceipt} title = "drugReceipt" />
                 <Scene key = "Signup" component = {Signup} title = "Signup" />
