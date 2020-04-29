@@ -13,23 +13,11 @@ export default class drugReceipt extends Component{
         this.state = {
             datadrug: [],  
             screenHeight: 0,
-           
+            isShow: false,
+            showButton: false
         };
         
     }
-    onePresses(){
-        this.setState({one:true,two:false})
-    }
-    twoPresses(){
-        this.setState({one:false,two:true})
-    }
-
-    checkBoxTest(){
-        this.setState({
-            check:! this.state.check
-        })
-    }
-
 
     drugInform(){
         axios({
@@ -42,6 +30,7 @@ export default class drugReceipt extends Component{
               console.log(Data.data);
               this.setState({
                 datadrug: Data.data,
+                isShow: true
               }) 
             }).catch(e => {
                 console.log(e);
@@ -49,32 +38,51 @@ export default class drugReceipt extends Component{
               
         };
 
-    toIDP = () => {
-        
-            Actions.WaitIDPReceipt()
-        }
-
     toInput = () => {
-        
             Actions.drugInputID()
         }
 
     onContentSizeChange = (contentWidth, contentHeight) => {
         this.setState({screenHeight: contentHeight});
     }
-        
+    
+
+
     render() {
+        const isShow = this.state.isShow;
+        let datadisplay;
+        if(isShow == false) {
+            datadisplay = <View style = {{alignItems :'center',}}>
+
+                    
+            <TouchableOpacity style = {styles.buttonContainer} onPress = {this.drugInform.bind(this)}>
+               <Text style = {{color : 'white'}}>Press for Information</Text>
+            </TouchableOpacity>
+        </View>
+        }
+
         const scrollEnabled = this.state.screenHeight > height;
         const dataDrug = this.state.datadrug.map((item, index) => {
             var ID = ['ID: ',item.ID]
             var DTname = ['รหัสแพทย์ : ',item.Doctor_ID]
             var list = ['รายการยา : ',item.Drug_List]
             var price = ['ราคาที่ต้องชำระ : ',item.Price]
-            var code = ['รหัสยืนยัน : ',item.รหัสยืนยัน]
+            var status = ['สถานะ : ', item.Status]
+        const showButton = this.state.showButton;
+        let actionbutton;
+        if(item.Status == true) {
+            actionbutton = <TouchableOpacity style = {styles.buttonReceipt2}>
+            <Text style = {{color:'white'}}>Success</Text>
+            </TouchableOpacity>
+        } else {
+            actionbutton = <TouchableOpacity style = {styles.buttonReceipt} onPress ={this.toInput}>
+            <Text style = {{color:'white'}}>Receive</Text>
+            </TouchableOpacity>
+        }
 
         return  <View style={styles.listcard}>
                     <View>
-                            <Text style={{fontSize:20,fontWeight:'bold'}} key={index}>{ID}</Text>
+        <Text style={{fontSize:20,fontWeight:'bold'}} key={index}>{ID}</Text>
                     </View>
 
                     <View>
@@ -90,9 +98,7 @@ export default class drugReceipt extends Component{
                     </View>
 
                     <View>
-                        <TouchableOpacity style = {styles.buttonReceipt} onPress ={this.toInput}>
-                           <Text style = {{color:'white'}}>Recieve</Text>
-                       </TouchableOpacity>
+                        {actionbutton}
                     </View>
 
                 </View>;
@@ -111,15 +117,9 @@ export default class drugReceipt extends Component{
                                     onContentSizeChange = {this.onContentSizeChange}
                                 >
                                         {dataDrug}
-
                     
-                    <View style = {{alignItems :'center',}}>
-
-                    
-                        <TouchableOpacity style = {styles.buttonContainer} onPress = {this.drugInform.bind(this)}>
-                           <Text style = {{color : 'white'}}>Press for Information</Text>
-                        </TouchableOpacity>
-                    </View>
+                    {datadisplay}
+                        <Text>{"\n\n\n"}</Text>
                     
                     </ScrollView>
 
@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
 
    },
    buttonReceipt :{
-    backgroundColor :'green',
+    backgroundColor :'orange',
     height : 30,
     width : 100,
     marginTop : 5,
@@ -174,6 +174,17 @@ const styles = StyleSheet.create({
     alignItems :'center',
     paddingTop: 5
     },
+
+    buttonReceipt2 :{
+        backgroundColor :'green',
+        height : 30,
+        width : 100,
+        marginTop : 5,
+        marginLeft: 120,
+        borderRadius : 25,
+        alignItems :'center',
+        paddingTop: 5
+        },
 
     listcard: {
         padding: 8, 

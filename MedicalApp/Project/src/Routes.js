@@ -28,6 +28,7 @@ import successDrug from './component/successDrug';
 import Register from './component/Register';
 import RegisterForm from './component/RegisterForm';
 import LoadingScreen from './component/Loading';
+import LoadingdrugScreen from './component/Loadingdrug';
 
 export default class Routes extends Component {
      
@@ -62,6 +63,7 @@ export default class Routes extends Component {
                 <Scene key = "Register" component = {Register} title = "Register" />
                 <Scene key = "RegisterForm" component = {RegisterForm} title ="RegisterForm"/>
                 <Scene key = "LoadingScreen" component = {LoadingScreen} title ="LoadingScreen"/>
+                <Scene key = "LoadingdrugScreen" component = {LoadingdrugScreen} title ="LoadingdrugScreen"/>
             </Stack>
         </Router>
         )

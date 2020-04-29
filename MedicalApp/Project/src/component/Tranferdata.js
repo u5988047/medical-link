@@ -1,13 +1,18 @@
 import React, {Component} from 'react';
-import {StyleSheet, View,Text,Image, TextInput, TouchableOpacity, Button,Picker,ToastAndroid} from 'react-native';
+import {StyleSheet, View, Dimensions, SafeAreaView, ScrollView,Text,Image, TextInput, TouchableOpacity, Button,Picker,ToastAndroid} from 'react-native';
 import {Actions} from 'react-native-router-flux';
 import axios from 'axios';
 import { API_IP } from 'react-native-dotenv';
 import { Card } from 'react-native-shadow-cards';
+const { height } = Dimensions.get('window');
 
 export default class Tranferdata extends Component{
     toLoading = () => {
         Actions.LoadingScreen()
+    }
+
+    onContentSizeChange = (contentWidth, contentHeight) => {
+        this.setState({screenHeight: contentHeight});
     }
 
     constructor(props) {
@@ -21,48 +26,84 @@ export default class Tranferdata extends Component{
             res_ref_id: '',
             res_req_id: '',
             isRequest: false,
-            isSuccess: Boolean
+            secret: String,
+            ischeck: false,
+            isSuccess: Boolean,
+            otp: String,
+
         };
         
     }
+
+    verifyEmail() {
+        var mailurl = 'http://192.168.0.109:3000/mailsender';
+        var self = this;
+        axios.post(mailurl, {
+          email: this.state.email
+        }).then(res => {
+          console.log(res)
+          if(res.data.success == true) {
+            self.setState({secret: res.data.secret});
+            self.setState({ischeck: true});
+            return (ToastAndroid.show('Please check OTP in mailbox',ToastAndroid.SHORT))
+          } 
+          if(res.data.success == false) {
+            return (ToastAndroid.show('Your email is not correct.',ToastAndroid.SHORT))
+          }
+          else {
+            return (ToastAndroid.show('Server error please contact application owner.',ToastAndroid.SHORT))
+          }
+        })
+      }
 
     //Function call API route to sendform
     sendrequest() {
         var validateurl = 'http://192.168.0.109:3000/validatecid';
         var requrl = 'http://192.168.0.109:3000/api/request';
+        var validurl = 'http://192.168.0.109:3000/otp-validate';
         var self = this;
         console.log(new Date().getSeconds)
-        axios.post(validateurl, {
-            email: this.state.email,
-            cid: this.state.citizen_id
+        axios.post(validurl, {
+            secret: this.state.secret,
+            token: this.state.otp
         }).then(res => {
-            console.log(Math.floor(Date.now()/1000))
-            if(res.data.success == true) {
-                axios.post(requrl, {
-                    id: this.state.citizen_id,
-                    idp : this.state.idp
-                })
-                .then(res => {
-                    console.log(res);
-                    if(!res){
-                        return (ToastAndroid.show('No IdP found',ToastAndroid.SHORT))
+            if(res.data.valid == true){
+                axios.post(validateurl, {
+                    email: this.state.email,
+                    cid: this.state.citizen_id
+                }).then(res => {
+                    console.log(Math.floor(Date.now()/1000))
+                    if(res.data.success == true) {
+                        axios.post(requrl, {
+                            id: this.state.citizen_id,
+                            idp : this.state.idp
+                        })
+                        .then(res => {
+                            console.log(res);
+                            if(!res){
+                                return (ToastAndroid.show('No IdP found',ToastAndroid.SHORT))
+                            }
+                            else{
+                                  self.setState({res_initial_salt: res.data.initial_salt})
+                                  self.setState({res_ref_id: res.data.reference_id})
+                                  self.setState({res_req_id: res.data.request_id})
+                                        self.setState({isRequest: true})
+                                        self.setState({isSuccess: true})
+                                      return (ToastAndroid.show('Your sharing medical information contract request has been sent.',ToastAndroid.SHORT))
+                            }
+                        })
+                        .catch(function (error) {
+                          console.log(error);
+                        });
                     }
-                    else{
-                          self.setState({res_initial_salt: res.data.initial_salt})
-                          self.setState({res_ref_id: res.data.reference_id})
-                          self.setState({res_req_id: res.data.request_id})
-                                self.setState({isRequest: true})
-                                self.setState({isSuccess: true})
-                              return (ToastAndroid.show('Your sharing medical information contract request has been sent.',ToastAndroid.SHORT))
+                    else {
+                        console.log(res.data.message)
+                        return (ToastAndroid.show('Incorrect Information',ToastAndroid.SHORT))
                     }
                 })
-                .catch(function (error) {
-                  console.log(error);
-                });
-            }
-            else {
-                console.log(res.data.message)
-                return (ToastAndroid.show('Incorrect Information',ToastAndroid.SHORT))
+            } else {
+                self.setState({ischeck: false})
+      return (ToastAndroid.show('Wrong verification code please try again.',ToastAndroid.SHORT))
             }
         })
 
@@ -70,6 +111,27 @@ export default class Tranferdata extends Component{
 
 
     render() {
+        const scrollEnabled = this.state.screenHeight > height;
+        const ischeck = this.state.ischeck;
+            let otpinput;
+            if (ischeck == true) {
+              otpinput = <View style = {styles.container}>
+                <TextInput 
+                placeholder = "OTP"
+                placeholderTextColor = '#B40431'
+                style = {styles.input2}
+                onChangeText={(value) => this.setState({otp: value})}
+                value={this.state.otp}
+              />
+              <TouchableOpacity
+                  style = {styles.buttonContainer2}
+                  onPress={this.sendrequest.bind(this)}
+                 >
+                  <Text style={{color: "white"}}>Send Request</Text>
+              </TouchableOpacity>
+              </View>; 
+            }
+
         const isRequest = this.state.isRequest;
         let responsecard;
 
@@ -81,7 +143,7 @@ export default class Tranferdata extends Component{
                           <Text style = {styles.Textshow}>Initial_salt: {this.state.res_initial_salt}</Text>
                           <Text style = {styles.Textshow}>Reference_id: {this.state.res_ref_id}</Text>
                         </Card>
-                        <TouchableOpacity style={styles.buttonContainer} onPress={this.toLoading}><Text style = {{color: "white"}}>IdP Result</Text></TouchableOpacity>
+                        <TouchableOpacity style={styles.buttonContainer2} onPress={this.toLoading}><Text style = {{color: "white"}}>IdP Result</Text></TouchableOpacity>
                     </View>;
         }
 
@@ -90,7 +152,12 @@ export default class Tranferdata extends Component{
         }
 
         return (
-                <View style = {styles.container}>
+                <SafeAreaView style = {styles.container}>
+                    <ScrollView 
+                    style = {{flexDirection:'column'}}
+                    scrollEnable = {scrollEnabled}
+                    onContentSizeChange = {this.onContentSizeChange}
+                    >
                      <Text style = {styles.head}>Please enter your information</Text>
                      <View style = {{padding: 8, borderWidth: 2, borderRadius: 8, borderColor: "gray", margin: 10}}>
                      <View style = {styles.inputcontainer}>
@@ -135,9 +202,11 @@ export default class Tranferdata extends Component{
                     <View style = {{paddingVertical:20}}>
                     
                     </View>
-                        <TouchableOpacity style={styles.buttonContainer} onPress={this.sendrequest.bind(this)}><Text style = {{color: "white"}}>Send Request</Text></TouchableOpacity>
+                        <TouchableOpacity style={styles.buttonContainer} onPress={this.verifyEmail.bind(this)}><Text style = {{color: "white"}}>Verify Email</Text></TouchableOpacity>
+                        {otpinput}
                         {responsecard}
-                </View>
+                    </ScrollView>
+                </SafeAreaView>
 
         );
     }
@@ -182,12 +251,24 @@ const styles = StyleSheet.create({
             height : 40,
             textAlign: 'right',
             alignContent:'flex-end',
-            justifyContent : 'flex-end',
+            justifyContent : 'center',
             alignItems:'flex-end',
             alignSelf : 'flex-end',
             width : '80%',
             flex : 1,
             marginTop: 5
+            
+        },
+        input2 : {
+            height : 40,
+            textAlign: 'center',
+            alignContent:'center',
+            justifyContent : 'center',
+            alignItems:'center',
+            alignSelf : 'center',
+            width : '80%',
+            flex : 1,
+            marginVertical: 15
             
         },
         buttonContainer :{
@@ -198,7 +279,19 @@ const styles = StyleSheet.create({
             alignItems : 'center',
             justifyContent :'center',
             textAlign : 'center',
-            alignItems: 'center'
+            alignItems: 'center',
+            marginLeft: 100
+        },
+        buttonContainer2 :{
+            backgroundColor: '#B40431',
+            paddingVertical:5,
+            borderRadius : 25,
+            width : 200,
+            alignItems : 'center',
+            justifyContent :'center',
+            textAlign : 'center',
+            alignItems: 'center',
+            marginRight: 10
         },
         Textshow :{
             fontSize : 14,

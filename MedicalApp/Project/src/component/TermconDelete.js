@@ -20,7 +20,7 @@ export default class TermconTranfer extends Component{
     checkboxverify() {
         if(this.state.checked == true)
         {
-            return Actions.Tranferdata()
+            return Actions.DeleteData()
         }
         else
         {

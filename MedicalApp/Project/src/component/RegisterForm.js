@@ -19,7 +19,7 @@ export default class RegisterForm extends Component{
         secret: String,
         ischeck: false,
         otp: String,
-        reqid: String
+        req_id: String
     };
     
 }
@@ -60,11 +60,13 @@ registsend() {
         id: this.state.cid,
         idp: 'idp1'
       }).then(res => {
-        self.setState({reqid: res.data.request_id})
+        self.setState({req_id: res.data.request_id})
+        console.log(res)
         if(res.data.reference_id) {
           axios.post(asdata, {
-            request_id: this.state.reqid
-          }).then(res => {
+            request_id: this.state.req_id
+          }).then(async (res) => {
+            console.log(res.data);
             axios.post(signupurl, {
               lastName: this.state.lastname,
               password: this.state.Password,
@@ -91,6 +93,7 @@ registsend() {
         }
       })
     } else {
+      self.setState({ischeck: false})
       return (ToastAndroid.show('Wrong verification code please try again.',ToastAndroid.SHORT))
     }
   })

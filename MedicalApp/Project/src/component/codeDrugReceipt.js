@@ -1,91 +1,110 @@
 import React, {Component} from 'react';
-import {StyleSheet, View,Text,Image, TextInput, TouchableOpacity, ScrollView} from 'react-native';
-import {Actions } from 'react-native-router-flux';
+import {StyleSheet, View, Dimensions, SafeAreaView, ScrollView,Text,Image, TextInput, TouchableOpacity, Button,Picker,ToastAndroid} from 'react-native';
+import {Actions} from 'react-native-router-flux';
 import axios from 'axios';
 import { API_IP } from 'react-native-dotenv';
-export default class WaitIDPDelete extends Component{
+import { Card } from 'react-native-shadow-cards';
 
-    constructor() {
-        super();
+export default class codeDrugReceipt extends Component{
+
+    constructor(props) {
+        super(props);
         this.state = {
-            datadrug: [],  
-            
-           
+            datadrug: [],
+            drugId: String,
+            ID: String,
+            DocID: String,
+            Drug_List: String,
+            Price: String,
+            drugcode: String,
+            drugtoken: String,
+            secret: String,
+            isGet: false,
+            timer: 3600,
+            minute: 0,
         };
         
     }
+    
+    componentDidMount(){
+        this.interval = setInterval(
+          () => this.setState((prevState)=> ({ timer: prevState.timer - 1 })),
+          1000
+        );
+      }
 
-    drugInform(){
-        axios({
-            url: 'http://192.168.0.109:3000/drugReceipt/drugReceipt',
-            method: 'get',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          }).then((Data) => {
-              console.log(Data.data);
-              this.setState({
-                datadrug: Data.data,
-              }) 
-            }).catch(e => {
-                console.log(e);
-              });
-              
-        };
-    toresult = () => {
-        Actions.Menu()
-}
-    tosuccess = () => {
-    Actions.successDrug()
-}
-    render() {
-        const dataMongo = this.state.datadrug.map((item, index) => {
-            // var ID = ['ID: ',item.ID]
-            // var DTname = ['แพทย์ : ',item.แพทย์]
-            // var list = ['รายการยา : ',item.รายการยา]
-            // var price = ['ราคาที่ต้องชำระ : ',item.ราคาที่ต้องชำระ]
-            var code = ['รหัสยืนยัน : ',item.รหัสยืนยัน]
+      componentDidUpdate(){
+        if(this.state.timer === 0){ 
+          clearInterval(this.interval);
+        }
+      }
+      
+      componentWillUnmount(){
+       clearInterval(this.interval);
+      }
 
-        return  <View>
-                    
-                    <ScrollView style = {{borderBottomWidth : 1 , flexDirection:'row',justifyContent:'space-between'  }}>
-            <Text style = {styles.Textshow}>{code}</Text>
-                 
-                
-                    </ScrollView>
-                </View>;
+    toResult() {
+        if(this.state.timer < 1) {
+            return (ToastAndroid.show('Your drug receive code is expired please get it again',ToastAndroid.SHORT))
+        } else {
+            Actions.successDrug({
+                drugId: this.props.ID,
+                secrets: this.state.secret,
+            })
+        }
+    }
+    
+    toGetCode = () => {
+        var getcode = 'http://192.168.0.109:3000/gendrugcode';
+        axios.post(getcode, {
+        }).then(r => {
+            JSON.stringify(r)
+            console.log(r.data.token)
+            this.setState({secret: r.data.secret})
+            this.setState({drugtoken: r.data.token})
+            this.setState({isGet: true})
+            this.setState({timer: 3600})
         })
+    }
 
+    tosuccess = () => {
+        Actions.successDrug()
+    }
+
+    render() {
+        const isGet = this.state.isGet;
+        let showcode;
+        if(isGet == true) {
+            showcode = <View style = {styles.container}>
+            <View style = {{padding: 8, borderWidth: 2, borderRadius: 8, borderColor: "gray", margin: 10}}>
+                <Text style = {styles.Textshow, {textAlign: "center", marginTop: 5}}>Please send this Receving code to Pharmarcy</Text>
+                <Text style = {styles.Textshow, {textAlign: "center", marginTop: 20, color: "green", fontSize: 35}}>{this.state.drugtoken}</Text>
+        <Text style = {styles.Textshow, {textAlign: "center", marginVertical: 5}}>Time remaining: {this.state.timer} seconds</Text>
+            </View>
+            <TouchableOpacity style={styles.buttonContainer2} onPress={this.toResult.bind(this)}><Text style = {{color: "white"}}>Receive Result</Text></TouchableOpacity>
+        </View>
+        }
 
         return (
+            <View style = {styles.container}>
+            <Text style = {styles.head}>Request Information</Text>
                 <View style = {styles.container}>
-                     <Text style = {styles.head}>Code</Text>  
-
-                     
-
-                     <View style={{flexDirection:'column'}}>
-                        {dataMongo}
-                        
+                <View style = {{padding: 8, borderWidth: 2, borderRadius: 8, borderColor: "gray", margin: 10}}>
+                      <Text style = {styles.Textshow, {textAlign: "center"}}>Drug receipt details</Text>
+                      <Text style = {styles.Textshow}>Drug Receipt ID: {this.props.ID}</Text>
+                      <Text style = {styles.Textshow}>Doctor ID: {this.props.DocID}</Text>
+                      <Text style = {styles.Textshow}>Druglist: {this.props.Drug_List}</Text>
+                      <Text style = {styles.Textshow}>Price: {this.props.Price}</Text>
                     </View>
-                            <View style = {{alignItems:'center'}}>
-                    <TouchableOpacity style = {styles.buttonContainer} onPress = {this.drugInform.bind(this)}>
-                           <Text style = {{color : 'white'}}>Press for Code</Text>
-                        </TouchableOpacity>
-                            </View>
-                    <View style = {{   borderRadius : 25 ,marginBottom : 20,alignItems:'flex-end'}}>
-                        <TouchableOpacity style={styles.buttonReceipt} onPress={this.tosuccess}><Text style={styles.buttonText} >Next</Text></TouchableOpacity>
-                    </View>
-                   
-                       
-
+                    <TouchableOpacity style={styles.buttonContainer2} onPress={this.toGetCode}><Text style = {{color: "white"}}>Get Receiving code</Text></TouchableOpacity>
                 </View>
-
-               
-
+                {showcode}
+            </View>
         );
     }
 
 }
+
 const styles = StyleSheet.create({
     container:{
         backgroundColor : 'white',
@@ -119,9 +138,19 @@ const styles = StyleSheet.create({
             marginBottom : 20,
             borderRadius : 25,
             alignItems :'center'
-            
-    
        },
+       buttonContainer2 :{
+        backgroundColor: '#B40431',
+        paddingVertical:5,
+        borderRadius : 25,
+        width : 200,
+        alignItems : 'center',
+        justifyContent :'center',
+        textAlign : 'center',
+        alignItems: 'center',
+        marginLeft: 100,
+        marginTop: 10
+    },
         buttonText: {
             textAlign: 'center',
             color: '#FFFF',
@@ -143,9 +172,11 @@ const styles = StyleSheet.create({
             marginBottom : 20,
             borderRadius : 25,
             alignItems :'center',
-            
-            
-        
+        },
+        Textshow :{
+            fontSize : 14,
+            marginVertical : 20,
+            color : 'black'
         },
        
 });

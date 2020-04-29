@@ -342,6 +342,24 @@ router.post('/drugcode', (req, res, next) => {
 
 })
 
+router.post('/gendrugcode', (req, res, next) => {
+  var secret = speakeasy.generateSecret({ length: 20});
+  var token;
+  var remaining;
+  token = speakeasy.totp({
+    secret: secret.base32,
+    encoding: "base32"
+  });
+  console.log(secret);
+  console.log(token);
+  remaining = (5000 - Math.floor((new Date().getTime() / 1000.0 % 30)));
+  return res.send({
+    success: true,
+    secret: secret.base32,
+    token: token,
+  });
+})
+
 router.post('/mailsender', (req, res, next) => {
   const { body } = req;
   let {
